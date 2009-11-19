@@ -5,7 +5,7 @@
 import os.path, re, os
 import lsst.SConsUtils as scons
 
-env = scons.makeEnv("meas_pipeline",
+env = scons.makeEnv("ip_pipeline",
                     r"$HeadURL: svn+ssh://svn.lsstcorp.org/DMS/meas/pipeline/trunk/SConstruct $",
                     []
                     )
