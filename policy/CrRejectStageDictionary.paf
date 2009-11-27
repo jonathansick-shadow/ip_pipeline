@@ -1,0 +1,65 @@
+#<?cfg paf dictionary ?>
+#
+# Dictionary for BackgroundEstimationStage policies
+#
+target: lsst.ip.pipeline.CrRejectEstimationStage
+
+definitions: {
+    #input clipboard keys
+    inputKeys: {
+        type: "policy"
+        dictionary: {
+            definitions: {
+                exposure: {
+                    type: "string"
+                    description: "specify the clipboard key of the exposure to process."
+                    maxOccurs: 1
+                }        
+            }
+        }
+        maxOccurs: 1        
+    }
+    
+    #output clipboard keys:
+    outputKeys: {
+        type: "policy"
+        dictionary: {
+            definitions: {
+                crSubtractedExposure: {
+                    type: "string"
+                    description: "specify output clipboard key of the CR-subtracted exposure"
+                    maxOccurs: 1
+                    default: "crSubtractedExposure"
+                }
+                nCR: {
+                    type: "int"
+                    description: "Number of CRs detected"
+                    maxOccurs: 1
+                }
+            }
+        }
+        maxOccurs: 1
+    }
+    
+    #parameters    
+    defaultFwhm: {
+        type: "float"
+        description: "FHWM of seeing for Exposure"
+        default: 1.0
+        minOccurs: 1 
+    }
+
+    crRejectionPolicy: {
+        type: "policy"
+        dictionary: @crRejectPolicy.paf
+        description: "includes all the parameters needed to detect cosmic rays on an exposure"
+        minOccurs: 1 
+        maxOccurs: 1
+    }
+    keepCRs: {
+        type: "bool"
+        description: "If true, don't actually remove the CRs"
+        maxOccurs: 1
+        default: false
+    }
+}

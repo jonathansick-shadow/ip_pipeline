@@ -1,4 +1,5 @@
-setupRequired(ip_isr)
+setupRequired(ip_utils)
+setupRequired(meas_utils)
 setupRequired(pex_harness >= 3.4)
 
 envAppend(LD_LIBRARY_PATH, ${PRODUCT_DIR}/lib)
