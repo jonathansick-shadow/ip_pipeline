@@ -12,7 +12,7 @@ env = scons.makeEnv("ip_pipeline",
 #
 # Build/install things
 #
-for d in Split("doc tests python/lsst/meas/pipeline"):
+for d in Split("doc tests"):
     SConscript(os.path.join(d, "SConscript"))
 
 env['IgnoreFiles'] = r"(~$|\.pyc$|^\.svn$|\.o$)"

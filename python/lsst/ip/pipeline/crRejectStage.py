@@ -74,6 +74,7 @@ class CrRejectStageParallel(harnessStage.ParallelProcessing):
         self.crRejectPolicy.set('gain', exposure.getMetadata().get('GAIN'))
         # Set backwards compatible names; should fix meas/algorithms
         self.crRejectPolicy.set('e_per_dn', self.crRejectPolicy.get('gain'))
+        self.crRejectPolicy.set('min_sigma', self.crRejectPolicy.get('minSigma'))
 
         mi = exposure.getMaskedImage()
         wcs = exposure.getWcs()
