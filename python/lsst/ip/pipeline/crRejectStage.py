@@ -74,11 +74,14 @@ class CrRejectStageParallel(harnessStage.ParallelProcessing):
         self.crRejectPolicy.set('gain', exposure.getMetadata().get('GAIN'))
         # Set backwards compatible names; should fix meas/algorithms
         self.crRejectPolicy.set('e_per_dn', self.crRejectPolicy.get('gain'))
-        self.crRejectPolicy.set('min_sigma', self.crRejectPolicy.get('minSigma'))
 
         mi = exposure.getMaskedImage()
+        wcs = exposure.getWcs()
 
-        defaultFwhm = self.policy.get('defaultFwhm')
+        defaultFwhm = self.policy.get('defaultFwhm') # in arcsec
+        scale = math.sqrt(wcs.pixArea(afwImg.PointD(mi.getWidth()/2, mi.getHeight()/2)))*3600 # arcsec/pixel
+        defaultFwhm /= scale            # convert to pixels
+        
         psf         = measAlg.createPSF('DoubleGaussian', 0, 0, defaultFwhm/(2*math.sqrt(2*math.log(2))))
 
         bg = afwMath.makeStatistics(mi, afwMath.MEDIAN).getValue()

@@ -56,6 +56,7 @@ class CrRejectStageTestCase(unittest.TestCase):
 
         if display:
             ds9.mtv(self.exposure, frame=0, title="Input")
+        global foo; foo = self.exposure
         #
         # Do the work
         #
@@ -63,10 +64,10 @@ class CrRejectStageTestCase(unittest.TestCase):
 
         outPolicy = policy.get("outputKeys")
         self.assertTrue(outWorker.contains(outPolicy.get("crSubtractedExposure")))
-        print "nCR = ", outWorker.get("nCR")
+        self.assertEqual(outWorker.get("nCR"), 25)
 
         if display:
-            ds9.mtv(outWorker.get(outPolicy.get("crSubtractedExposure")), frame=1, title="Subtracted")
+            ds9.mtv(outWorker.get(outPolicy.get("crSubtractedExposure")), frame=1, title="CR removed")
 
 def suite():
     """Returns a suite containing all the test cases in this module."""
