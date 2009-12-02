@@ -51,15 +51,6 @@ class CrRejectStageParallel(harnessStage.ParallelProcessing):
             self.policy = pexPolicy.Policy()
         self.policy.mergeDefaults(defPolicy)
 
-        if True:                        # workaround #1035
-            dfile = pexPolicy.DefaultPolicyFile("meas_utils", 
-                                                "CrRejectDictionary.paf", "policy")
-            
-            defpolicy = pexPolicy.Policy.createPolicy(dfile, dfile.getRepositoryPath())
-            tmp = pexPolicy.Policy()
-            tmp.mergeDefaults(defpolicy)
-            self.policy.add("crRejectPolicy", tmp)
-
         self.crRejectPolicy = self.policy.get("crRejectPolicy")
 
     def process(self, clipboard):
@@ -69,7 +60,7 @@ class CrRejectStageParallel(harnessStage.ParallelProcessing):
         self.log.log(Log.INFO, "Detecting CRs in process")
         
         #grab exposure from clipboard
-        exposure = clipboard.get(self.policy.getString("inputKeys.exposure"))
+        exposure = clipboard.get(self.policy.getString("inputKeys.exposureKey"))
 
         self.crRejectPolicy.set('gain', exposure.getMetadata().get('GAIN'))
         # Set backwards compatible names; should fix meas/algorithms
@@ -91,7 +82,7 @@ class CrRejectStageParallel(harnessStage.ParallelProcessing):
 
         #output products
         clipboard.put("nCR", nCR)
-        clipboard.put(self.policy.get("outputKeys.crSubtractedExposure"), exposure)
+        clipboard.put(self.policy.get("outputKeys.exposureKey"), exposure)
         
 class CrRejectStage(harnessStage.Stage):
     parallelClass = CrRejectStageParallel

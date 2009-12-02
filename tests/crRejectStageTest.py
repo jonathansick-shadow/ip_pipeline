@@ -51,23 +51,22 @@ class CrRejectStageTestCase(unittest.TestCase):
         stage = ipPipe.CrRejectStage(policy)
         tester = SimpleStageTester(stage)
 
-        clipboard = pexClipboard.Clipboard()         
-        clipboard.put(policy.get("inputKeys.exposure"), self.exposure)
+        clipboard = pexClipboard.Clipboard()
+        clipboard.put(policy.get("inputKeys.exposureKey"), self.exposure)
 
         if display:
             ds9.mtv(self.exposure, frame=0, title="Input")
-        global foo; foo = self.exposure
         #
         # Do the work
         #
         outWorker = tester.runWorker(clipboard)
 
         outPolicy = policy.get("outputKeys")
-        self.assertTrue(outWorker.contains(outPolicy.get("crSubtractedExposure")))
+        self.assertTrue(outWorker.contains(outPolicy.get("exposureKey")))
         self.assertEqual(outWorker.get("nCR"), 25)
 
         if display:
-            ds9.mtv(outWorker.get(outPolicy.get("crSubtractedExposure")), frame=1, title="CR removed")
+            ds9.mtv(outWorker.get(outPolicy.get("exposureKey")), frame=1, title="CR removed")
 
 def suite():
     """Returns a suite containing all the test cases in this module."""

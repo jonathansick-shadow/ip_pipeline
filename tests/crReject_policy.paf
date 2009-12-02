@@ -3,11 +3,11 @@
 # Stage policy for crRejectStage
 
 inputKeys: {
-    exposure: "calibratedExposure"
+    exposureKey: "calibratedExposure"
 }
     
 outputKeys: {
-    crSubtractedExposure: "crSubtractedExposure"
+    exposureKey: "calibratedExposure"
     keepCRs: False
 }
 

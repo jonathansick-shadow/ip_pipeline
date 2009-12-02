@@ -25,11 +25,10 @@ definitions: {
         type: "policy"
         dictionary: {
             definitions: {
-                crSubtractedExposure: {
+                exposure: {
                     type: "string"
-                    description: "specify output clipboard key of the CR-subtracted exposure"
+                    description: "specify output clipboard key of the CR-subtracted exposure (same as inputKeys[exposure])"
                     maxOccurs: 1
-                    default: "crSubtractedExposure"
                 }
                 nCR: {
                     type: "int"
@@ -43,15 +42,15 @@ definitions: {
     
     #parameters    
     defaultFwhm: {
-        type: "float"
+        type: "double"
         description: "FHWM of seeing for Exposure"
         default: 1.0
         minOccurs: 1 
     }
 
-    crRejectionPolicy: {
+    crRejectPolicy: {
         type: "policy"
-        dictionary: @crRejectPolicy.paf
+        dictionary: @CrRejectDictionary.paf
         description: "includes all the parameters needed to detect cosmic rays on an exposure"
         minOccurs: 1 
         maxOccurs: 1
