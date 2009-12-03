@@ -45,7 +45,7 @@ class CrRejectStageParallel(harnessStage.ParallelProcessing):
         self.log = Log(self.log, "CrRejectStage - parallel")
 
         policyFile = pexPolicy.DefaultPolicyFile("ip_pipeline", "CrRejectStageDictionary.paf", "policy")
-        defPolicy = pexPolicy.Policy.createPolicy(policyFile, policyFile.getRepositoryPath())
+        defPolicy = pexPolicy.Policy.createPolicy(policyFile, policyFile.getRepositoryPath(), True)
 
         if self.policy is None:
             self.policy = pexPolicy.Policy()
