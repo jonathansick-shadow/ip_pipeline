@@ -3,12 +3,14 @@
 # Stage policy for crRejectStage
 
 inputKeys: {
-    exposureKey: "calibratedExposure"
+    exposure: "calibratedExposure"
 }
     
 outputKeys: {
-    exposureKey: "calibratedExposure"
+    exposure: "calibratedExposure"
     keepCRs: False
 }
 
-defaultFwhm : 1.0
+parameters: {
+    defaultFwhm : 1.0
+}

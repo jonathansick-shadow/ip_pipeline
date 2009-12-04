@@ -60,7 +60,7 @@ class CrRejectStageParallel(harnessStage.ParallelProcessing):
         self.log.log(Log.INFO, "Detecting CRs in process")
         
         #grab exposure from clipboard
-        exposure = clipboard.get(self.policy.getString("inputKeys.exposureKey"))
+        exposure = clipboard.get(self.policy.getString("inputKeys.exposure"))
 
         self.crRejectPolicy.set('gain', exposure.getMetadata().get('GAIN'))
         # Set backwards compatible names; should fix meas/algorithms
@@ -70,7 +70,7 @@ class CrRejectStageParallel(harnessStage.ParallelProcessing):
         mi = exposure.getMaskedImage()
         wcs = exposure.getWcs()
 
-        defaultFwhm = self.policy.get('defaultFwhm') # in arcsec
+        defaultFwhm = self.policy.get('parameters.defaultFwhm') # in arcsec
         scale = math.sqrt(wcs.pixArea(afwImg.PointD(mi.getWidth()/2, mi.getHeight()/2)))*3600 # arcsec/pixel
         defaultFwhm /= scale            # convert to pixels
         
@@ -82,7 +82,7 @@ class CrRejectStageParallel(harnessStage.ParallelProcessing):
 
         #output products
         clipboard.put("nCR", nCR)
-        clipboard.put(self.policy.get("outputKeys.exposureKey"), exposure)
+        clipboard.put(self.policy.get("outputKeys.exposure"), exposure)
         
 class CrRejectStage(harnessStage.Stage):
     parallelClass = CrRejectStageParallel

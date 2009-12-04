@@ -52,7 +52,7 @@ class CrRejectStageTestCase(unittest.TestCase):
         tester = SimpleStageTester(stage)
 
         clipboard = pexClipboard.Clipboard()
-        clipboard.put(policy.get("inputKeys.exposureKey"), self.exposure)
+        clipboard.put(policy.get("inputKeys.exposure"), self.exposure)
 
         if display:
             ds9.mtv(self.exposure, frame=0, title="Input")
@@ -62,11 +62,11 @@ class CrRejectStageTestCase(unittest.TestCase):
         outWorker = tester.runWorker(clipboard)
 
         outPolicy = policy.get("outputKeys")
-        self.assertTrue(outWorker.contains(outPolicy.get("exposureKey")))
+        self.assertTrue(outWorker.contains(outPolicy.get("exposure")))
         self.assertEqual(outWorker.get("nCR"), 25)
 
         if display:
-            ds9.mtv(outWorker.get(outPolicy.get("exposureKey")), frame=1, title="CR removed")
+            ds9.mtv(outWorker.get(outPolicy.get("exposure")), frame=1, title="CR removed")
 
 def suite():
     """Returns a suite containing all the test cases in this module."""
