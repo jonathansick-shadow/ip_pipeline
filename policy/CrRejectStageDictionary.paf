@@ -55,10 +55,13 @@ definitions: {
         minOccurs: 1 
         maxOccurs: 1
     }
-    keepCRs: {
-        type: "bool"
-        description: "If true, don't actually remove the CRs"
-        maxOccurs: 1
-        default: false
+    parameters: {
+        keepCRs: {
+            type: "bool"
+            description: "If true, don't actually remove the CRs"
+            minOccurs: 1
+            maxOccurs: 1
+            default: true
+        }
     }
 }

@@ -1,0 +1,43 @@
+#<?cfg paf dictionary ?>
+#
+# Dictionary for SimpleDiffImStage policies
+#
+target: lsst.ip.pipeline.simpleDiffImEstimationStage
+
+definitions: {
+    #input clipboard keys
+    inputKeys: {
+        type: "policy"
+        dictionary: {
+            definitions: {
+                exposures: {
+                    type: "string"
+                    description: "specify the clipboard key of the first exposure to process."
+                    minOccurs: 2
+                    maxOccurs: 2
+                }        
+            }
+        }
+        minOccurs: 1
+        maxOccurs: 1
+    }
+    
+    #output clipboard keys:
+    outputKeys: {
+        type: "policy"
+        dictionary: {
+            definitions: {
+                differenceExposure: {
+                    type: "string"
+                    description: "specify output clipboard key of the difference of the two exposures"
+                    minOccurs: 1
+                    maxOccurs: 1
+                }
+            }
+        }
+        minOccurs: 1
+        maxOccurs: 1
+    }
+    parameters: {
+    }
+}

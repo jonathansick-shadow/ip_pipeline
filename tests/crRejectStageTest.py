@@ -43,11 +43,12 @@ class CrRejectStageTestCase(unittest.TestCase):
         del self.exposure        
 
     def testSingleExposure(self):
-        
-        file = pexPolicy.DefaultPolicyFile("ip_pipeline", 
-                                           "crReject_policy.paf", "tests")
-        policy = pexPolicy.Policy.createPolicy(file)
+        policyFile = pexPolicy.DefaultPolicyFile("ip_pipeline", "CrRejectStageDictionary.paf", "policy")
+        defPolicy = pexPolicy.Policy.createPolicy(policyFile, policyFile.getRepositoryPath(), True)
 
+        policy = pexPolicy.Policy("crReject_policy.paf")
+        policy.mergeDefaults(defPolicy)
+            
         stage = ipPipe.CrRejectStage(policy)
         tester = SimpleStageTester(stage)
 

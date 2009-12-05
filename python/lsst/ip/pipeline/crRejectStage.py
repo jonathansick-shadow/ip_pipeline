@@ -60,7 +60,7 @@ class CrRejectStageParallel(harnessStage.ParallelProcessing):
         self.log.log(Log.INFO, "Detecting CRs in process")
         
         #grab exposure from clipboard
-        exposure = clipboard.get(self.policy.getString("inputKeys.exposure"))
+        exposure = clipboard.get(self.policy.get("inputKeys.exposure"))
 
         self.crRejectPolicy.set('gain', exposure.getMetadata().get('GAIN'))
         # Set backwards compatible names; should fix meas/algorithms
@@ -77,7 +77,8 @@ class CrRejectStageParallel(harnessStage.ParallelProcessing):
         psf         = measAlg.createPSF('DoubleGaussian', 0, 0, defaultFwhm/(2*math.sqrt(2*math.log(2))))
 
         bg = afwMath.makeStatistics(mi, afwMath.MEDIAN).getValue()
-        crs         = measAlg.findCosmicRays(mi, psf, bg, self.crRejectPolicy, False)
+        crs = measAlg.findCosmicRays(mi, psf, bg, self.crRejectPolicy,
+                                     self.policy.get('parameters.keepCRs'))
         nCR = len(crs)
 
         #output products
