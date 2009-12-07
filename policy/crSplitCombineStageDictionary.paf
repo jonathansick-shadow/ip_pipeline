@@ -16,6 +16,20 @@ definitions: {
                     minOccurs: 2
                     maxOccurs: 2
                 }        
+                positiveDetection: {
+                    type: "string"
+                    description: "specify the clipboard key of the positive FootprintSet"
+                    minOccurs: 1
+                    maxOccurs: 1
+                    default: "positiveFootprintSet"
+                }
+                negativeDetection: {
+                    type: "string"
+                    description: "specify the clipboard key of the negative FootprintSet"
+                    minOccurs: 1
+                    maxOccurs: 1
+                    default: "negativeFootprintSet"
+                }
             }
         }
         minOccurs: 1
@@ -27,12 +41,12 @@ definitions: {
         type: "policy"
         dictionary: {
             definitions: {
-                summedExposure: {
+                combinedExposure: {
                     type: "string"
-                    description: "output clipboard key of the masked and summed ecxposures"
+                    description: "specify output clipboard key of the combined of the two exposures"
                     minOccurs: 1
                     maxOccurs: 1
-                    default: "summedExposure"
+                    default: "combinedExposure"
                 }
             }
         }
