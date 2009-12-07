@@ -10,6 +10,7 @@ import lsst.afw.image as afwImg
 import lsst.afw.math as afwMath
 import lsst.pex.exceptions as pexExcept
 import lsst.meas.algorithms as measAlg
+import lsst.ip.utils as ipUtils
 
 import lsst.afw.display.ds9 as ds9
 import lsst.afw.display.utils as displayUtils
@@ -62,23 +63,15 @@ class CrRejectStageParallel(harnessStage.ParallelProcessing):
         #grab exposure from clipboard
         exposure = clipboard.get(self.policy.get("inputKeys.exposure"))
 
+        defaultFwhm = self.policy.get('parameters.defaultFwhm') # in arcsec
+        keepCRs = self.policy.get('parameters.keepCRs')
+
         self.crRejectPolicy.set('gain', exposure.getMetadata().get('GAIN'))
         # Set backwards compatible names; should fix meas/algorithms
         self.crRejectPolicy.set('e_per_dn', self.crRejectPolicy.get('gain'))
         self.crRejectPolicy.set('min_sigma', self.crRejectPolicy.get('minSigma'))
 
-        mi = exposure.getMaskedImage()
-        wcs = exposure.getWcs()
-
-        defaultFwhm = self.policy.get('parameters.defaultFwhm') # in arcsec
-        scale = math.sqrt(wcs.pixArea(afwImg.PointD(mi.getWidth()/2, mi.getHeight()/2)))*3600 # arcsec/pixel
-        defaultFwhm /= scale            # convert to pixels
-        
-        psf         = measAlg.createPSF('DoubleGaussian', 0, 0, defaultFwhm/(2*math.sqrt(2*math.log(2))))
-
-        bg = afwMath.makeStatistics(mi, afwMath.MEDIAN).getValue()
-        crs = measAlg.findCosmicRays(mi, psf, bg, self.crRejectPolicy,
-                                     self.policy.get('parameters.keepCRs'))
+        crs = ipUtils.cosmicRays.findCosmicRays(exposure, self.crRejectPolicy, defaultFwhm, keepCRs)
         nCR = len(crs)
 
         #output products
