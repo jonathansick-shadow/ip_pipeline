@@ -54,8 +54,8 @@ class CrSplitCombineStageParallel(harnessStage.ParallelProcessing):
         badPixelMask = 0x0
 
         mi0 = exposures[0].getMaskedImage()
-        combined = mi0.Factory(mi0, True)
-        combined.set((0, 0x0, 0))
+        combined = mi0.Factory(mi0.getDimensions())
+        combined.setXY0(mi0.getXY0())
         del mi0
         weightMap = combined.getImage().Factory(combined.getDimensions())
 

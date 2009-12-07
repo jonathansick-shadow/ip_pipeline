@@ -56,6 +56,7 @@ class SimpleDiffImStageParallel(harnessStage.ParallelProcessing):
 
         differenceExposure = afwImage.makeExposure(diff, exposures[0].getWcs())
         differenceExposure.setMetadata(exposures[0].getMetadata())
+        differenceExposure.getMaskedImage().setXY0(exposures[0].getMaskedImage().getXY0())
 
         #output products
         clipboard.put(self.policy.get("outputKeys.differenceExposure"), differenceExposure)
