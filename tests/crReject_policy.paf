@@ -8,9 +8,9 @@ inputKeys: {
     
 outputKeys: {
     exposure: "calibratedExposure"
-    keepCRs: False
 }
 
 parameters: {
     defaultFwhm : 1.0
+    keepCRs: False
 }

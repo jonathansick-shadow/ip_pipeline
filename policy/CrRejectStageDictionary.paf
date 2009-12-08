@@ -41,13 +41,6 @@ definitions: {
     }
     
     #parameters    
-    defaultFwhm: {
-        type: "double"
-        description: "FHWM of seeing for Exposure"
-        default: 1.0
-        minOccurs: 1 
-    }
-
     crRejectPolicy: {
         type: "policy"
         dictionary: @CrRejectDictionary.paf
@@ -56,12 +49,24 @@ definitions: {
         maxOccurs: 1
     }
     parameters: {
-        keepCRs: {
-            type: "bool"
-            description: "If true, don't actually remove the CRs"
-            minOccurs: 1
-            maxOccurs: 1
-            default: true
+        type: "policy"
+        dictionary: {
+            definitions: {
+                defaultFwhm: {
+                    type: "double"
+                    description: "FHWM of seeing for Exposure"
+                    default: 1.0
+                    minOccurs: 1 
+                }
+                
+                keepCRs: {
+                    type: "bool"
+                    description: "If true, don't actually remove the CRs"
+                    minOccurs: 1
+                    maxOccurs: 1
+                    default: true
+                }
+            }
         }
     }
 }

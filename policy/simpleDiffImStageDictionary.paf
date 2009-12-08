@@ -27,10 +27,10 @@ definitions: {
         type: "policy"
         dictionary: {
             definitions: {
-                summedExposure: {
+                differenceExposure: {
                     type: "string"
-                    description: "output clipboard key of the masked and summed ecxposures"
-                    minOccurs: 1
+                    description: "output clipboard key for exposure1 - exposure0 exposures"
+                    minOccurs: 0
                     maxOccurs: 1
                     default: "summedExposure"
                 }
