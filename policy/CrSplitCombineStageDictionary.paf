@@ -1,0 +1,58 @@
+#<?cfg paf dictionary ?>
+#
+# Dictionary for crSplitCombineStage policies
+#
+target: lsst.ip.pipeline.crSplitCombineStage
+
+definitions: {
+    #input clipboard keys
+    inputKeys: {
+        type: "policy"
+        dictionary: {
+            definitions: {
+                exposures: {
+                    type: "string"
+                    description: "specify the clipboard key of the first exposure to process."
+                    minOccurs: 2
+                    maxOccurs: 2
+                }        
+                positiveDetection: {
+                    type: "string"
+                    description: "specify the clipboard key of the positive FootprintSet"
+                    minOccurs: 1
+                    maxOccurs: 1
+                    default: "positiveFootprintSet"
+                }
+                negativeDetection: {
+                    type: "string"
+                    description: "specify the clipboard key of the negative FootprintSet"
+                    minOccurs: 1
+                    maxOccurs: 1
+                    default: "negativeFootprintSet"
+                }
+            }
+        }
+        minOccurs: 1
+        maxOccurs: 1
+    }
+    
+    #output clipboard keys:
+    outputKeys: {
+        type: "policy"
+        dictionary: {
+            definitions: {
+                combinedExposure: {
+                    type: "string"
+                    description: "specify output clipboard key of the combined of the two exposures"
+                    minOccurs: 1
+                    maxOccurs: 1
+                    default: "combinedExposure"
+                }
+            }
+        }
+        minOccurs: 1
+        maxOccurs: 1
+    }
+    parameters: {
+    }
+}
