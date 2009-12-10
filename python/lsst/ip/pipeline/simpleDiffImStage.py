@@ -32,7 +32,7 @@ class SimpleDiffImStageParallel(harnessStage.ParallelProcessing):
     def setup(self):
         self.log = Log(self.log, "simpleDiffImStage - parallel")
 
-        policyFile = pexPolicy.DefaultPolicyFile("ip_pipeline", "simpleDiffImStageDictionary.paf", "policy")
+        policyFile = pexPolicy.DefaultPolicyFile("ip_pipeline", "SimpleDiffImStageDictionary.paf", "policy")
         defPolicy = pexPolicy.Policy.createPolicy(policyFile, policyFile.getRepositoryPath(), True)
 
         if self.policy is None:

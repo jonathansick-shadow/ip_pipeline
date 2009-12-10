@@ -33,7 +33,7 @@ class CrSplitCombineStageParallel(harnessStage.ParallelProcessing):
     def setup(self):
         self.log = Log(self.log, "crSplitCombine - parallel")
 
-        policyFile = pexPolicy.DefaultPolicyFile("ip_pipeline", "crSplitCombineStageDictionary.paf", "policy")
+        policyFile = pexPolicy.DefaultPolicyFile("ip_pipeline", "CrSplitCombineStageDictionary.paf", "policy")
         defPolicy = pexPolicy.Policy.createPolicy(policyFile, policyFile.getRepositoryPath(), True)
 
         if self.policy is None:
