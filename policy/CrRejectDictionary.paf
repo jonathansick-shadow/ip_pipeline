@@ -5,11 +5,19 @@
 target: crRejectionPolicy
 
 definitions: {
+    nCrPixelMax: {
+        type: "int"
+        description: "maximum number of contaminated pixels"
+        minOccurs: 0
+        maxOccurs: 1
+        default: 10000
+    }
+        
     gain: {
         type: "double"
         description: "Gain of detector; electrons/DN"
+        minOccurs: 0                    # May be set from the image metadata
         maxOccurs: 1
-        #default: 1.0                    # no default
     }
 
     minSigma: {

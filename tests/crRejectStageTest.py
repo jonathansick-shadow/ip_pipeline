@@ -46,7 +46,8 @@ class CrRejectStageTestCase(unittest.TestCase):
         policyFile = pexPolicy.DefaultPolicyFile("ip_pipeline", "CrRejectStageDictionary.paf", "policy")
         defPolicy = pexPolicy.Policy.createPolicy(policyFile, policyFile.getRepositoryPath(), True)
 
-        policy = pexPolicy.Policy("crReject_policy.paf")
+        policy = pexPolicy.Policy(os.path.join(eups.productDir("ip_pipeline"),
+                                               "tests", "crReject_policy.paf"))
         policy.mergeDefaults(defPolicy)
             
         stage = ipPipe.CrRejectStage(policy)

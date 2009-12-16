@@ -12,5 +12,5 @@ outputKeys: {
 
 parameters: {
     defaultFwhm : 1.0
-    keepCRs: False
+    keepCRs: false
 }

@@ -5,15 +5,7 @@ import lsst.pex.harness.stage as harnessStage
 from lsst.pex.logging import Log
 
 import lsst.pex.policy as pexPolicy
-import lsst.afw.detection as afwDet
-import lsst.afw.image as afwImg
-import lsst.afw.math as afwMath
-import lsst.pex.exceptions as pexExcept
-import lsst.meas.algorithms as measAlg
 import lsst.ip.utils as ipUtils
-
-import lsst.afw.display.ds9 as ds9
-import lsst.afw.display.utils as displayUtils
 
 try:
     type(display)
