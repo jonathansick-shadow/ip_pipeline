@@ -1,0 +1,66 @@
+#<?cfg paf dictionary ?>
+#
+# Dictionary for DiffImStage policies
+#
+target: lsst.ip.pipeline.DiffImStage
+
+definitions: {
+    #input clipboard keys
+    inputKeys: {
+        type: policy
+        dictionary: {
+            definitions: {
+                templateExposureKey: {
+                    type: string
+                    description: "clipboard key of the template Exposure to process."
+                    maxOccurs: 1
+                    default: "templateExposure"
+                }        
+                scienceExposureKey: {
+                    type: string
+                    description: "clipboard key of the science Exposure to process."
+                    maxOccurs: 1
+                    default: "scienceExposure"
+                }        
+            }
+        }
+        maxOccurs: 1        
+    }
+    
+    #output clipboard keys:
+    outputKeys: {
+        type: policy
+        dictionary: {
+            definitions: {
+                differenceExposureKey: {
+                    type: string
+                    description: "Resulting difference Exposure."
+                    maxOccurs: 1
+                    default: "differenceExposure"
+                }
+                psfMatchingKernelKey: {
+                    type: string
+                    description: "Resulting Psf matching Kernel."
+                    maxOccurs: 1
+                    default: "psfMatchingKernel"
+                }
+                backgroundFunctionKey: {
+                    type: string
+                    description: "Resulting differential background Function."
+                    maxOccurs: 1
+                    default: "backgroundFunction"
+                }
+            }
+        }
+        maxOccurs: 1
+    }
+    
+    #parameters    
+    diffImPolicy: {
+        type: policy
+        dictionary: @DiffImDictionary.paf
+        description: "includes all the parameters needed to run image subtraction on an exposure"
+        minOccurs: 1 
+        maxOccurs: 1
+    }
+}
