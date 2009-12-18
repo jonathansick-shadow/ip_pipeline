@@ -1,4 +1,7 @@
 setupRequired(ip_utils)
+setupRequired(coadd_utils)
+setupRequired(ip_diffim)
+setupRequired(ip_utils)
 setupRequired(meas_utils)
 setupRequired(pex_policy >= 3.4)
 setupRequired(pex_harness >= 3.4)
