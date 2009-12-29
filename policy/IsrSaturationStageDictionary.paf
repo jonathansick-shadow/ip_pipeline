@@ -1,0 +1,51 @@
+#<?cfg paf dictionary ?>
+#
+# Dictionary for IsrSaturationStage policies
+#
+target: lsst.ip.pipeline.IsrSaturationStage
+
+definitions: {
+    #input clipboard keys
+    inputKeys: {
+        type: "policy"
+        dictionary: {
+            definitions: {
+                exposure: {
+                    type: "string"
+                    description: "specify the clipboard key of the exposure to process."
+                    default: "Exposure"
+                    maxOccurs: 1
+                }        
+                saturation: {
+                    type: "string"
+                    description: ""
+                    default: "saturation"
+                    maxOccurs: 1
+                }        
+                fwhm: {
+                    type: "string"
+                    description: ""
+                    default: "fwhm"
+                    maxOccurs: 1
+                }        
+            }
+        }
+        maxOccurs: 1        
+    }
+    
+    #output clipboard keys:
+    outputKeys: {
+        type: "policy"
+        dictionary: {
+            definitions: {
+                SaturationCorrectedExposure: {
+                    type: "string"
+                    description: "specify output clipboard key of the corrected exposure"
+                    maxOccurs: 1
+                    default: "saturationCorrectedExposure"
+                }
+            }
+        }
+        maxOccurs: 1
+    }
+}

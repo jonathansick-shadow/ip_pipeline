@@ -1,0 +1,45 @@
+#<?cfg paf dictionary ?>
+#
+# Dictionary for IsrBiasStage policies
+#
+target: lsst.ip.pipeline.IsrBiasStage
+
+definitions: {
+    #input clipboard keys
+    inputKeys: {
+        type: "policy"
+        dictionary: {
+            definitions: {
+                exposure: {
+                    type: "string"
+                    description: "specify the clipboard key of the exposure to process."
+                    default: "Exposure"
+                    maxOccurs: 1
+                }        
+                biasexposure: {
+                    type: "string"
+                    description: "specify the clipboard key of the exposure to process."
+                    default: "BiasExposure"
+                    maxOccurs: 1
+                }        
+            }
+        }
+        maxOccurs: 1        
+    }
+    
+    #output clipboard keys:
+    outputKeys: {
+        type: "policy"
+        dictionary: {
+            definitions: {
+                CorrectedExposure: {
+                    type: "string"
+                    description: "specify output clipboard key of the corrected exposure"
+                    maxOccurs: 1
+                    default: "biasSubtractedExposure"
+                }
+            }
+        }
+        maxOccurs: 1
+    }
+}

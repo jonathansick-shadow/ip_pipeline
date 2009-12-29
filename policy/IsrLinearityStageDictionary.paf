@@ -1,0 +1,51 @@
+#<?cfg paf dictionary ?>
+#
+# Dictionary for IsrLinearityStage policies
+#
+target: lsst.ip.pipeline.IsrLinearityStage
+
+definitions: {
+    #input clipboard keys
+    inputKeys: {
+        type: "policy"
+        dictionary: {
+            definitions: {
+                exposure: {
+                    type: "string"
+                    description: "specify the clipboard key of the exposure to process."
+                    default: "Exposure"
+                    maxOccurs: 1
+                }        
+                lutPolicyPath: {
+                    type: "string"
+                    description: "specify the clipboard key of the path to the linearity look up table."
+                    default: "lutPolicyPath"
+                    maxOccurs: 1
+                }
+                lutPolicyFile: {
+                    type: "string"
+                    description: "specify the clipboard key of the filename of the linearity look up table."
+                    default: "lutPolicyFile"
+                    maxOccurs: 1
+                }
+            }
+        }
+        maxOccurs: 1        
+    }
+    
+    #output clipboard keys:
+    outputKeys: {
+        type: "policy"
+        dictionary: {
+            definitions: {
+                linearityCorrectedExposure: {
+                    type: "string"
+                    description: "specify output clipboard key of the corrected exposure"
+                    maxOccurs: 1
+                    default: "linearityCorrectedExposure"
+                }
+            }
+        }
+        maxOccurs: 1
+    }
+}

@@ -1,0 +1,51 @@
+#<?cfg paf dictionary ?>
+#
+# Dictionary for IsrOverscanStage policies
+#
+target: lsst.ip.pipeline.IsrOverscanStage
+
+definitions: {
+    #input clipboard keys
+    inputKeys: {
+        type: "policy"
+        dictionary: {
+            definitions: {
+                exposure: {
+                    type: "string"
+                    description: "specify the clipboard key of the exposure to process."
+                    default: "Exposure"
+                    maxOccurs: 1
+                }        
+                overscansec: {
+                    type: "string"
+                    description: "specify the clipboard key of the bounding box of the overscan region."
+                    default: "overscanBbox"
+                    maxOccurs: 1
+                }        
+                overscanfittype: {
+                    type: "string"
+                    description: "specify the clipboard key of the overscan fit type (e.g. linear, polynomiacl, etc)."
+                    default: "ovserscanFitType"
+                    maxOccurs: 1
+                }        
+            }
+        }
+        maxOccurs: 1        
+    }
+    
+    #output clipboard keys:
+    outputKeys: {
+        type: "policy"
+        dictionary: {
+            definitions: {
+                OverscanCorrectedExposure: {
+                    type: "string"
+                    description: "specify output clipboard key of the corrected exposure"
+                    maxOccurs: 1
+                    default: "overscanCorrectedExposure"
+                }
+            }
+        }
+        maxOccurs: 1
+    }
+}

@@ -1,0 +1,45 @@
+#<?cfg paf dictionary ?>
+#
+# Dictionary for IsrFringeStage policies
+#
+target: lsst.ip.pipeline.IsrFringeStage
+
+definitions: {
+    #input clipboard keys
+    inputKeys: {
+        type: "policy"
+        dictionary: {
+            definitions: {
+                exposure: {
+                    type: "string"
+                    description: "specify the clipboard key of the exposure to process."
+                    default: "Exposure"
+                    maxOccurs: 1
+                }        
+                fringeexposure: {
+                    type: "string"
+                    description: ""
+                    default: "fringeExposure"
+                    maxOccurs: 1
+                }        
+            }
+        }
+        maxOccurs: 1        
+    }
+    
+    #output clipboard keys:
+    outputKeys: {
+        type: "policy"
+        dictionary: {
+            definitions: {
+                FringeCorrectedExposure: {
+                    type: "string"
+                    description: "specify output clipboard key of the corrected exposure"
+                    maxOccurs: 1
+                    default: "fringeCorrectedExposure"
+                }
+            }
+        }
+        maxOccurs: 1
+    }
+}

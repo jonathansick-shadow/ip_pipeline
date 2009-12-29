@@ -1,0 +1,51 @@
+#<?cfg paf dictionary ?>
+#
+# Dictionary for IsrDefectStage policies
+#
+target: lsst.ip.pipeline.IsrDefectStage
+
+definitions: {
+    #input clipboard keys
+    inputKeys: {
+        type: "policy"
+        dictionary: {
+            definitions: {
+                exposure: {
+                    type: "string"
+                    description: "specify the clipboard key of the exposure to process."
+                    default: "Exposure"
+                    maxOccurs: 1
+                }        
+                defectList: {
+                    type: "string"
+                    description: ""
+                    default: "defectlist"
+                    maxOccurs: 1
+                }        
+                fwhm: {
+                    type: "string"
+                    description: ""
+                    default: "fwhm"
+                    maxOccurs: 1
+                }        
+            }
+        }
+        maxOccurs: 1        
+    }
+    
+    #output clipboard keys:
+    outputKeys: {
+        type: "policy"
+        dictionary: {
+            definitions: {
+                DefectCorrectedExposure: {
+                    type: "string"
+                    description: "specify output clipboard key of the corrected exposure"
+                    maxOccurs: 1
+                    default: "defectCorrectedExposure"
+                }
+            }
+        }
+        maxOccurs: 1
+    }
+}
