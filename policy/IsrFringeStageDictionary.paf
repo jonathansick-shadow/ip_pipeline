@@ -18,7 +18,7 @@ definitions: {
                 }        
                 fringeexposure: {
                     type: "string"
-                    description: ""
+                    description: "Clipboard key of the fringe exposure"
                     default: "fringeExposure"
                     maxOccurs: 1
                 }        
@@ -32,7 +32,7 @@ definitions: {
         type: "policy"
         dictionary: {
             definitions: {
-                FringeCorrectedExposure: {
+                fringeCorrectedExposure: {
                     type: "string"
                     description: "specify output clipboard key of the corrected exposure"
                     maxOccurs: 1

@@ -18,13 +18,13 @@ definitions: {
                 }        
                 saturation: {
                     type: "string"
-                    description: ""
+                    description: "Saturation value of image"
                     default: "saturation"
                     maxOccurs: 1
                 }        
                 fwhm: {
                     type: "string"
-                    description: ""
+                    description: "Default full width half maximum"
                     default: "fwhm"
                     maxOccurs: 1
                 }        
@@ -38,7 +38,7 @@ definitions: {
         type: "policy"
         dictionary: {
             definitions: {
-                SaturationCorrectedExposure: {
+                saturationCorrectedExposure: {
                     type: "string"
                     description: "specify output clipboard key of the corrected exposure"
                     maxOccurs: 1

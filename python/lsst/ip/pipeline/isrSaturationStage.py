@@ -39,7 +39,7 @@ class IsrSaturationStageParallel(harnessStage.ParallelProcessing):
         ipIsr.saturationCorrection(exposure, saturation, fwhm)
 
         #output products
-        clipboard.put(self.policy.get("outputKeys.SaturationCorrectedExposure"), exposure)
+        clipboard.put(self.policy.get("outputKeys.saturationCorrectedExposure"), exposure)
         
 class IsrSaturationStage(harnessStage.Stage):
     parallelClass = IsrSaturationStageParallel

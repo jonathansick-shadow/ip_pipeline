@@ -34,9 +34,16 @@ class IsrDefectStageParallel(harnessStage.ParallelProcessing):
         
         #grab exposure from clipboard
         exposure = clipboard.get(self.policy.getString("inputKeys.exposure"))
-        defectlist = clipboard.get(self.policy.getString("inputKeys.defectList"))
+        defectList = clipboard.get(self.policy.getString("inputKeys.defectList"))
         fwhm = clipboard.get(self.policy.getString("inputKeys.fwhm"))
-        ipIsr.maskBadPixelsDef(exposure, defectlist, fwhm)
+        #
+        # The defects file is in amp coordinates, and we need to
+        # shift to the CCD frame
+        #
+        dx, dy = exposure.getMaskedImage().getXY0()
+        for defect in defectList:
+            defect.shift(dx, dy)
+        ipIsr.maskBadPixelsDef(exposure, defectList, fwhm)
 
         #output products
         clipboard.put(self.policy.get("outputKeys.defectCorrectedExposure"), exposure)

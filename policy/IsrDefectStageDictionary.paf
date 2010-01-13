@@ -18,13 +18,13 @@ definitions: {
                 }        
                 defectList: {
                     type: "string"
-                    description: ""
+                    description: "Clipboard key for list of defects."
                     default: "defectlist"
                     maxOccurs: 1
                 }        
                 fwhm: {
                     type: "string"
-                    description: ""
+                    description: "Clipboard key for the default full width half maximum of the psf"
                     default: "fwhm"
                     maxOccurs: 1
                 }        
@@ -38,7 +38,7 @@ definitions: {
         type: "policy"
         dictionary: {
             definitions: {
-                DefectCorrectedExposure: {
+                defectCorrectedExposure: {
                     type: "string"
                     description: "specify output clipboard key of the corrected exposure"
                     maxOccurs: 1

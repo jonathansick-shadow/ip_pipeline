@@ -34,14 +34,12 @@ class IsrFlatStageParallel(harnessStage.ParallelProcessing):
         
         #grab exposure from clipboard
         exposure = clipboard.get(self.policy.getString("inputKeys.exposure"))
-        flatexposure =
-        clipboard.get(self.policy.getString("inputKeys.flatexposure"))
-        scalingtype =
-        clipboard.get(self.policy.getString("inputKeys.flatscalingtype"))
+        flatexposure = clipboard.get(self.policy.getString("inputKeys.flatexposure"))
+        scalingtype = clipboard.get(self.policy.getString("inputKeys.flatscalingtype"))
         ipIsr.flatCorrection(exposure, flatexposure, scalingtype)
 
         #output products
-        clipboard.put(self.policy.get("outputKeys.FlatCorrectedExposure"), exposure)
+        clipboard.put(self.policy.get("outputKeys.flatCorrectedExposure"), exposure)
         
 class IsrFlatStage(harnessStage.Stage):
     parallelClass = IsrFlatStageParallel

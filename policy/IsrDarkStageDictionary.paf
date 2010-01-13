@@ -18,19 +18,19 @@ definitions: {
                 }        
                 darkexposure: {
                     type: "string"
-                    description: ""
+                    description: "Specify the clipboard key of the dark exposure to use"
                     default: "DarkExposure"
                     maxOccurs: 1
                 }        
                 darkscale: {
                     type: "string"
-                    description: ""
+                    description: "Clipboard key of the scaling for the dark exposure"
                     default: "darkScale"
                     maxOccurs: 1
                 }        
                 exposurescale: {
                     type: "string"
-                    description: ""
+                    description: "Clipboard key of the scaling for the science exposure"
                     default: "exposureScale"
                     maxOccurs: 1
                 }        
@@ -45,11 +45,11 @@ definitions: {
         type: "policy"
         dictionary: {
             definitions: {
-                DarkCorrectedExposure: {
+                darkSubtractedExposure: {
                     type: "string"
                     description: "specify output clipboard key of the corrected exposure"
                     maxOccurs: 1
-                    default: "darkCorrectedExposure"
+                    default: "darkSubtractedExposure"
                 }
             }
         }

@@ -33,14 +33,13 @@ class IsrOverscanStageParallel(harnessStage.ParallelProcessing):
         self.log.log(Log.INFO, "Doing overscan subtraction.")
         
         #grab exposure and overscan bbox from clipboard
-        overscanBBox =
-        clipboard.get(self.policy.getString("inputKeys.overscansec")
+        overscanBBox = clipboard.get(self.policy.getString("inputKeys.overscansec"))
         exposure = clipboard.get(self.policy.getString("inputKeys.exposure"))
         fittype = clipboard.get(self.policy.getString("inputKeys.overscanfittype"))
         ipIsr.overscanCorrection(exposure, overscanBBox, fittype)
 
         #output products
-        clipboard.put(self.policy.get("outputKeys.OverscanCorrectedExposure"), exposure)
+        clipboard.put(self.policy.get("outputKeys.overscanCorrectedExposure"), exposure)
         
 class IsrOverscanStage(harnessStage.Stage):
     parallelClass = IsrOverscanStageParallel

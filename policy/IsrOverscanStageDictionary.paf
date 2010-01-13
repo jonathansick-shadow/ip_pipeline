@@ -24,7 +24,7 @@ definitions: {
                 }        
                 overscanfittype: {
                     type: "string"
-                    description: "specify the clipboard key of the overscan fit type (e.g. linear, polynomiacl, etc)."
+                    description: "specify the clipboard key of the overscan fit type (e.g. mean, median, polynomial, etc)."
                     default: "ovserscanFitType"
                     maxOccurs: 1
                 }        
@@ -38,7 +38,7 @@ definitions: {
         type: "policy"
         dictionary: {
             definitions: {
-                OverscanCorrectedExposure: {
+                overscanCorrectedExposure: {
                     type: "string"
                     description: "specify output clipboard key of the corrected exposure"
                     maxOccurs: 1

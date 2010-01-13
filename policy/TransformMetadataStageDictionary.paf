@@ -1,0 +1,69 @@
+#<?cfg paf dictionary ?>
+#
+# Dictionary for IsrLinearityStage policies
+#
+target: lsst.ip.pipeline.TransformMetadataStage
+
+definitions: {
+    #input clipboard keys
+    inputKeys: {
+        type: "policy"
+        dictionary: {
+            definitions: {
+                inputMetadata: {
+                    type: "string"
+                    description: "Metadata to transform"
+                    default: "inputMetadata"
+                    maxOccurs: 1
+                }
+                policyPath: {
+                    type: "string"
+                    description: "Path to the metadata and datatype policy files"
+                    default: "policyPath"
+                    maxOccurs: 1
+                }
+                metadataPolicyFile: {
+                    type: "string"
+                    description: "Metadata policy file name."
+                    default: "metadataPolicyFile"
+                    maxOccurs: 1
+                }
+                datatypePolicyFile: {
+                    type: "string"
+                    description: "Datatype policy file name."
+                    default: "datatypePolicyFile"
+                    maxOccurs: 1
+                }
+                keywordSuffix: {
+                    type: "string"
+                    description: "Suffix to append to metadataPolicy parameters for looking for keywords in datatype policy."
+                    default: "keywordSuffix"
+                    maxOccurs: 1
+                }
+            }
+        }
+        maxOccurs: 1        
+    }
+    
+    #output clipboard keys:
+    outputKeys: {
+        type: "policy"
+        dictionary: {
+            definitions: {
+                transformedMetadata: {
+                    type: "string"
+                    description: "Key for the transformed metadata."
+                    maxOccurs: 1
+                    default: "transformedMetadata"
+                }
+                isValidated: {
+                    type: "string"
+                    description: "Key for the boolean stating whether the metadata has been validated."
+                    maxOccurs: 1
+                    default: "isValidated"
+                }
+            }
+        }
+        maxOccurs: 1
+    }
+}

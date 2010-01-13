@@ -18,13 +18,13 @@ definitions: {
                 }        
                 flatexposure: {
                     type: "string"
-                    description: ""
+                    description: "Clipboard key of the flat frame"
                     default: "flatExposure"
                     maxOccurs: 1
                 }        
                 flatscalingtype: {
                     type: "string"
-                    description: ""
+                    description: "Clipboard key for flat scling type MEAN or MEDIAN"
                     default: "flatScalingType"
                     maxOccurs: 1
                 }        
@@ -38,7 +38,7 @@ definitions: {
         type: "policy"
         dictionary: {
             definitions: {
-                FlatCorrectedExposure: {
+                flatCorrectedExposure: {
                     type: "string"
                     description: "specify output clipboard key of the corrected exposure"
                     maxOccurs: 1

@@ -34,12 +34,13 @@ class IsrFringeStageParallel(harnessStage.ParallelProcessing):
         
         #grab exposure from clipboard
         exposure = clipboard.get(self.policy.getString("inputKeys.exposure"))
-        fringeexposure =
-        clipboard.get(self.policy.getString("inputKeys.fringeexposure"))
-        ipIsr.fringeCorrection(exposure, fringeexposure)
+        fringeexposure = clipboard.get(self.policy.getString("inputKeys.fringeexposure"))
+        #fringeCorrection is not implemented
+        self.log.log(Log.INFO, "ipIsr.fringeCorrection is not implemented -- \n\tOriginal exposure is returned")
+        #ipIsr.fringeCorrection(exposure, fringeexposure)
 
         #output products
-        clipboard.put(self.policy.get("outputKeys.FringeCorrectedExposure"), exposure)
+        clipboard.put(self.policy.get("outputKeys.fringeCorrectedExposure"), exposure)
         
 class IsrFringeStage(harnessStage.Stage):
     parallelClass = IsrFringeStageParallel
