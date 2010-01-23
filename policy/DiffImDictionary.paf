@@ -597,6 +597,16 @@ definitions: {
 
     ######
     #
+    #
+    maxPcaIterations: {
+        type: int
+        description: "maximum number of iterations to do Pca-based clipping"
+        maxOccurs: 1
+        default: 5
+    }
+
+    ######
+    #
     # This is defined to be the number to use *_in addition to_*
     # the mean kernel, so in total you use N+1 basis functions for the
     # decomposition.
