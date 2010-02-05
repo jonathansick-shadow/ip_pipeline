@@ -598,6 +598,16 @@ definitions: {
     ######
     #
     #
+    subtractMeanForPca: {
+        type: bool
+        description: "subtract off the mean feature before doing the Pca"
+        maxOccurs: 1
+        default: true
+    }
+
+    ######
+    #
+    #
     maxPcaIterations: {
         type: int
         description: "maximum number of iterations to do Pca-based clipping"
