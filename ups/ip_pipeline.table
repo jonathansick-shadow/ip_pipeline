@@ -1,3 +1,4 @@
+setupRequired(ip_isr)
 setupRequired(ip_utils)
 setupRequired(coadd_utils)
 setupRequired(ip_diffim)
