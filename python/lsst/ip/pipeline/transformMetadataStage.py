@@ -35,13 +35,12 @@ class TransformMetadataStageParallel(harnessStage.ParallelProcessing):
         self.log.log(Log.INFO, "Transforming metadata")
         metadata = clipboard.get(self.policy.getString("inputKeys.inputMetadata"))
         policyPath = clipboard.get(self.policy.getString("inputKeys.policyPath"))
-        metadataPolicyFile = clipboard.get(self.policy.getString("inputKeys.metadataPolicyFile"))
-        datatypePolicyFile = clipboard.get(self.policy.getString("inputKeys.datatypePolicyFile"))
+        metadataPolicyPath = clipboard.get(self.policy.getString("inputKeys.metadataPolicyFile"))
+        datatypePolicyPath = clipboard.get(self.policy.getString("inputKeys.datatypePolicyFile"))
         keywordSuffix = clipboard.get(self.policy.getString("inputKeys.keywordSuffix"))
         isValid = clipboard.get(self.policy.getString("outputKeys.isValidated"))
         metadataPolicy = pexPolicy.Policy.createPolicy(os.path.join(policyPath,metadataPolicyFile))
         datatypePolicy = pexPolicy.Policy.createPolicy(os.path.join(policyPath,datatypePolicyFile))
-        #grab exposure from clipboard
         ipIsr.transformMetadata(metadata, datatypePolicy, metadataPolicy,
                 keywordSuffix)
 

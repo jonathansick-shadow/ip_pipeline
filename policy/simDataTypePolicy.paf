@@ -9,10 +9,11 @@ visitIdKeyword: OBSID
 ccdIdKeyword: CCDID
 
 # Amp Id
-ampIdKeyword: LSSTAMP
+ampIdKeyword: AMPID
 
 # Exposure Id
-exposureIdKeyword: EXPID
+# TODO make sure that there is another exposure id in the next set of images
+exposureIdKeyword: SEED
 
 # Time of mid-observation in TAI
 dateObsKeyword: MJD-OBS
@@ -35,7 +36,7 @@ airmassKeyword: AIRMASS
 datasetIdKeyword: DATASET
 
 # Persisted name of file
-filenameKeyword: FILENAME
+filenameKeyword: OUTFILE
 
 # Gain
 gainKeyword: GAIN
@@ -45,4 +46,4 @@ saturationKeyword: SATURATE
 trimsecKeyword: DATASEC
 overscanKeyword: BIASSEC
 
-convertVisitIdToInt: true
+convertVisitIdToInt: false

@@ -6,6 +6,7 @@ from lsst.pex.logging import Log
 
 import lsst.pex.policy as pexPolicy
 import lsst.ip.isr as ipIsr
+import lsst.afw.cameraGeom as cameraGeom
 
 class IsrOverscanStageParallel(harnessStage.ParallelProcessing):
     """
@@ -33,11 +34,22 @@ class IsrOverscanStageParallel(harnessStage.ParallelProcessing):
         self.log.log(Log.INFO, "Doing overscan subtraction.")
         
         #grab exposure and overscan bbox from clipboard
-        overscanBBox = clipboard.get(self.policy.getString("inputKeys.overscansec"))
         exposure = clipboard.get(self.policy.getString("inputKeys.exposure"))
         fittype = clipboard.get(self.policy.getString("inputKeys.overscanfittype"))
+        ampId = clipboard.get("ampId")
+        cameraInfo = clipboard.get(self.policy.getString("inputKeys.cameraInfo"))
+        amp = None
+        for r in cameraInfo:
+            raft = cameraGeom.cast_Raft(r)
+            for c in raft:
+                ccd = cameraGeom.cast_Ccd(c)
+                for a in ccd:
+                    if a.getId() == ampId:
+                        amp = a
+        overscanBBox = amp.getDiskBiasSec()
+        dataBBox = amp.getDiskDataSec()
         ipIsr.overscanCorrection(exposure, overscanBBox, fittype)
-
+        #TODO optionally trim
         #output products
         clipboard.put(self.policy.get("outputKeys.overscanCorrectedExposure"), exposure)
         

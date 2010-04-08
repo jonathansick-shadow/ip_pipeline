@@ -1,38 +1,53 @@
 import os
 
-from lsst.pex.harness.Stage import Stage
+from lsst.pex.harness.stage import harnessStage
+from lsst.pex.logging import Log
+import lsst.pex.policy as pexPolicy
 from lsst.daf.base import DateTime, PropertySet
 from lsst.daf.persistence import LogicalLocation
 
 import lsst.ip.isr.calibDatabase as calibDatabase
+import lsst.afw.cameraGeom as cameraGeom
 
-class IdentifyCalibrationProductsStage(Stage):
-    def __init__(self, stageId=-1, stagePolicy=None):
-        Stage.__init__(self, stageId, stagePolicy)
-        self.cdb = calibDatabase.CalibDB(self._policy.get("calibDbPath"))
+class IdentifyCalibrationProductsStageParallel(harnessStage.ParallelProcessing):
+    def setup(self):
+        policyFile = pexPolicy.DefaultPolicyFile("ip_pipeline",
+                "IdentifyCalibrationProductsStageDictionary.paf", "policy")
+        defPolicy = pexPolicy.Policy.createPolicy(policyFile, policyFile.getRepositoryPath())
 
-    def process(self):
-        self.activeClipboard = self.inputQueue.getNextDataset()
+        if self.policy is None:
+            self.policy = pexPolicy.Policy()
+        self.policy.mergeDefaults(defPolicy)
+        self.bboxKeyword = self.policy.getString("imageBboxKeyword")
+        self.biasBboxKeyword = self.policy.getString("biasBboxKeyword")
+        self.dataBboxKeyword = self.policy.getString("dataBboxKeyword")
+        self.idKeyword = self.policy.getString("ampIdKeyword")
+        self.readoutCornerKeyword = self.policy.getString("readoutCornerKeyword")
 
-        eventName = self._policy.get("eventName")
-        event = self.activeClipboard.get(eventName)
-        when = DateTime(event.get("dateObs"))
+    def process(self, clipboard):
+        metadata = clipboard.get(self.policy.getString("inputKeys.metadata"))
+        cdb = clipboard.get(self.policy.getString("inputKeys.calibrationDB"))
 
-        ccdId = self.activeClipboard.get("ccdId")
-        ampId = self.activeClipboard.get("ampId")
+        pathPrefix =
+        cliboard.get(self.policy.getString("inputKeys.prefixPath"))
+
+        when = DateTime(metadata.get("dateObs"))
+
+        ccdId = metadata.get("ccdId")
+        ampId = metadata.get("ampId")
         
-        expTime = event.get("expTime")
-        darkPolicy = self._policy.get("darkPolicy")
-        darkCalibList = self.cdb.lookup(when, "dark", ccdId, ampId, all=True)
+        expTime = metadata.get("expTime")
+        darkToApply = self.policy.getString("whichdark")
+        darkCalibList = cdb.lookup(when, "dark", ccdId, ampId, all=True)
         darkTimeList = []
         for d in darkCalibList:
             darkTimeList.append(d.expTime)
         darkTimeList.sort()
-        if darkPolicy == "min":
+        if darktoapply == "min":
             darkExpTime = darkTimeList[0]
-        elif darkPolicy == "max":
+        elif darktoapply == "max":
             darkExpTime = darkTimeList[-1]
-        elif darkPolicy == "closest":
+        elif darktoapply == "closest":
             minDist = abs(expTime - darkTimeList[0])
             minExpTime = darkTimeList[0]
             for i in xrange(1, len(darkTimeList)):
@@ -42,20 +57,19 @@ class IdentifyCalibrationProductsStage(Stage):
                     minExpTime = darkTimeList[i]
             darkExpTime = minExpTime
         else:
-            raise RuntimeError, "Unrecognized darkPolicy: " + str(darkPolicy)
+            raise RuntimeError, "Unrecognized method for finding dark to apply: " + str(darktoapply)
 
 
-        biasPath = self.cdb.lookup(when, "bias", ccdId, ampId)
-        darkPath = self.cdb.lookup(when, "dark", ccdId, ampId,
+        biasPath = cdb.lookup(when, "bias", ccdId, ampId)
+        darkPath = cdb.lookup(when, "dark", ccdId, ampId,
                 expTime=darkExpTime)
-        defectPath = self.cdb.lookup(when, "defect", ccdId, ampId)
-        flatPath = self.cdb.lookup(when, "flat", ccdId, ampId,
-                filter=event.get("filter"))
-#         fringePath = self.cdb.lookup(when, "fringe", ccdId, ampId,
-#                 filter=event.get("filter"))
-        linearizePath = self.cdb.lookup(when, "linearize", ccdId, ampId)
+        defectPath = cdb.lookup(when, "defect", ccdId, ampId)
+        flatPath = cdb.lookup(when, "flat", ccdId, ampId,
+                filter=metadata.get("filter"))
+#         fringePath = cdb.lookup(when, "fringe", ccdId, ampId,
+#                 filter=metadata.get("filter"))
+        linearizePath = cdb.lookup(when, "linearize", ccdId, ampId)
 
-        pathPrefix = LogicalLocation(self._policy.get("pathPrefix")).locString()
         calibData = PropertySet()
         calibData.set("biasPath", os.path.join(pathPrefix, biasPath))
         calibData.set("darkPath", os.path.join(pathPrefix, darkPath))

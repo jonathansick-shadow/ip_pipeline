@@ -34,6 +34,7 @@ class IsrDefectStageParallel(harnessStage.ParallelProcessing):
         
         #grab exposure from clipboard
         exposure = clipboard.get(self.policy.getString("inputKeys.exposure"))
+	#TODO change this to use the cameraInfo defects
         defectList = clipboard.get(self.policy.getString("inputKeys.defectList"))
         fwhm = clipboard.get(self.policy.getString("inputKeys.fwhm"))
         #

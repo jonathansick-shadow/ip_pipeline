@@ -2,6 +2,7 @@ from crRejectStage import *
 from simpleDiffImStage import *
 from crSplitCombineStage import *
 from diffImStage import *
+from makeCameraGeomStage import *
 from isrBiasStage import *
 from isrDarkStage import *
 from isrDefectStage import *

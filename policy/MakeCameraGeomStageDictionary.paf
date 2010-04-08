@@ -1,0 +1,39 @@
+#<?cfg paf dictionary ?>
+#
+# Dictionary for IsrLinearityStage policies
+#
+target: lsst.ip.pipeline.TransformMetadataStage
+
+definitions: {
+    #input clipboard keys
+    inputKeys: {
+        type: "policy"
+        dictionary: {
+            definitions: {
+                cameraPolicy: {
+                    type: "string"
+                    description: "Camera plicy"
+                    default: "cameraPolicy"
+                    maxOccurs: 1
+                }
+            }
+        }
+        maxOccurs: 1        
+    }
+    
+    #output clipboard keys:
+    outputKeys: {
+        type: "policy"
+        dictionary: {
+            definitions: {
+                cameraInfo: {
+                    type: "string"
+                    description: "Camera class."
+                    maxOccurs: 1
+                    default: "cameraInfo"
+                }
+            }
+        }
+        maxOccurs: 1
+    }
+}

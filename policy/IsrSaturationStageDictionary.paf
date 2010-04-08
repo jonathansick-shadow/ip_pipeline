@@ -16,10 +16,10 @@ definitions: {
                     default: "Exposure"
                     maxOccurs: 1
                 }        
-                saturation: {
+                cameraInfo: {
                     type: "string"
-                    description: "Saturation value of image"
-                    default: "saturation"
+                    description: "Class holding the camera information"
+                    default: "cameraInfo"
                     maxOccurs: 1
                 }        
                 fwhm: {

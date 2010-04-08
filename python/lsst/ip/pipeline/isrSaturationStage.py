@@ -6,6 +6,7 @@ from lsst.pex.logging import Log
 
 import lsst.pex.policy as pexPolicy
 import lsst.ip.isr as ipIsr
+import lsst.afw.cameraGeom as cameraGeom
 
 class IsrSaturationStageParallel(harnessStage.ParallelProcessing):
     """
@@ -35,7 +36,17 @@ class IsrSaturationStageParallel(harnessStage.ParallelProcessing):
         #grab exposure from clipboard
         exposure = clipboard.get(self.policy.getString("inputKeys.exposure"))
         fwhm = clipboard.get(self.policy.getString("inputKeys.fwhm"))
-        saturation = clipboard.get(self.policy.getString("inputKeys.saturation"))
+        ampId = clipboard.get("ampId")
+        cameraInfo = clipboard.get(self.policy.getString("inputKeys.cameraInfo"))
+        amp = None
+        for r in cameraInfo:
+            raft = cameraGeom.cast_Raft(r)
+            for c in raft:
+                ccd = cameraGeom.cast_Ccd(c)
+                for a in ccd:
+                    if a.getId() == ampId:
+                        amp = a
+        saturation = amp.getElectronicParams().getSaturationLevel()
         ipIsr.saturationCorrection(exposure, saturation, fwhm)
 
         #output products
