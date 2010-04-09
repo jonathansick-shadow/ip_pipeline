@@ -28,7 +28,7 @@ from lsst.pex.harness.simpleStageTester import SimpleStageTester
 try:
     type(display)
 except NameError:
-    display = True
+    display = False
 
 #-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
@@ -49,6 +49,7 @@ class IsrStageTestCase(unittest.TestCase):
                 "CameraGeomDictionary.paf", "policy")
         defPolicy = pexPolicy.Policy.createPolicy(policyFile,
                 policyFile.getRepositoryPath(), True)
+
         geomPolicy =\
         pexPolicy.Policy.createPolicy(os.path.join(self.obsDir,"description","Full_STA_geom.paf"),
                     True)
@@ -75,15 +76,18 @@ class IsrStageTestCase(unittest.TestCase):
                     inputImage.getHeight())
         self.exposure = ipIsr.exposureFromInputData(inputImage, self.metadata,
                 self.exposureBbox)
+        self.id = cameraGeom.Id(-1, "R:2,3 S:1,1 C:0,0", 0, 0)
 
 
     def tearDown(self):
         for key in self.__dict__.keys():
           del self.__dict__[key]
+
     def testPipe(self):
-        id = cameraGeom.Id("R:2,3 S:1,1 C:0,0", ix=0, iy=0)
+        """Pipeline test case."""
+
         clipboard = pexClipboard.Clipboard()         
-        clipboard.put("ampId", id)
+        clipboard.put("ampId", self.id)
         clipboard.put("cameraPolicy", self.cameraPolicy )
         clipboard.put("Exposure", self.exposure)
         clipboard.put("fwhm", 5.)
@@ -137,7 +141,6 @@ class IsrStageTestCase(unittest.TestCase):
         flat = afwImage.ExposureF(self.flatfile)
         clipboard.put(p6.get("inputKeys.flatexposure"), flat)
         clipboard.put(p6.get("inputKeys.flatscalingtype"), 'MEAN')
-
         o1 = t1.runWorker(clipboard)
         o2 = t2.runWorker(o1)
         o2.put(p3.get("inputKeys.exposure"),
@@ -153,7 +156,6 @@ class IsrStageTestCase(unittest.TestCase):
             o5.get(p5.get("outputKeys.darkSubtractedExposure")))
         o6 = t6.runWorker(o5)
         self.exposure = o6.get(p6.get("outputKeys.flatCorrectedExposure"))
-
         if display:
             ds9.mtv(self.exposure, frame=0, title="Output")
 
