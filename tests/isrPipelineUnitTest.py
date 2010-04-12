@@ -36,6 +36,8 @@ class IsrStageTestCase(unittest.TestCase):
     """A test case for IsrLinearityStage.py"""
 
     def setUp(self):
+        ix = int(sys.argv[1])
+        iy = int(sys.argv[2])
         afwDataDir = eups.productDir("afwdata")
         self.obsDir = eups.productDir('obs_lsstSim')
         self.isrDir = eups.productDir('ip_isr')
@@ -56,17 +58,17 @@ class IsrStageTestCase(unittest.TestCase):
         geomPolicy.mergeDefaults(defPolicy.getDictionary())
         self.cameraPolicy = geomPolicy
         self.imagefile = os.path.join(afwDataDir, "ImSim/",
-                "imsim_85751839_R23_S11_C00_E000.fits.gz")
+                "imsim_85751839_R23_S11_C%i%i_E000.fits.gz"%(ix,iy))
         self.biasfile = os.path.join(afwDataDir, "ImSim/bias",
-                "imsim_0_R23_S11_C00_E000")
+                "imsim_0_R23_S11_C%i%i_E000"%(ix,iy))
         self.darkfile = os.path.join(afwDataDir, "ImSim/dark",
-                "imsim_1_R23_S11_C00_E000")
+                "imsim_1_R23_S11_C%i%i_E000"%(ix,iy))
         self.flatfile = os.path.join(afwDataDir, "ImSim/flat_r",
-                "imsim_2_R23_S11_C00_E000")
+                "imsim_2_R23_S11_C%i%i_E000"%(ix,iy))
         # Note that we have no fringe frame for Sim data at the moment.  I put
         # in the flat as proxy for the fringe frame.
         inputImage = afwImage.ImageF(self.imagefile)
-        self.metadata = afwImage.readMetadata(self.imagefile)
+        self.metadata = afwImage.readMetadata(self.imagefile, True)
 
         ipIsr.transformMetadata(self.metadata,
                 pexPolicy.Policy.createPolicy(os.path.join(self.pipepolicypath,self.simDatatypeFile)),
@@ -76,7 +78,7 @@ class IsrStageTestCase(unittest.TestCase):
                     inputImage.getHeight())
         self.exposure = ipIsr.exposureFromInputData(inputImage, self.metadata,
                 self.exposureBbox)
-        self.id = cameraGeom.Id(-1, "R:2,3 S:1,1 C:0,0", 0, 0)
+        self.id = cameraGeom.Id(-1, "R:2,3 S:1,1 C:%i,%i"%(ix,iy), ix, iy)
 
 
     def tearDown(self):
@@ -156,6 +158,7 @@ class IsrStageTestCase(unittest.TestCase):
             o5.get(p5.get("outputKeys.darkSubtractedExposure")))
         o6 = t6.runWorker(o5)
         self.exposure = o6.get(p6.get("outputKeys.flatCorrectedExposure"))
+        self.exposure.writeFits("tmp.fits")
         if display:
             ds9.mtv(self.exposure, frame=0, title="Output")
 

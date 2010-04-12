@@ -1,0 +1,44 @@
+inputKeys: {
+    inputDatasets: inputDatasets
+    jobIdentity: jobIdentity
+}
+parameters: {
+    butler: {
+        mapperName: lsst.obs.lsstSim.LsstSimMapper
+	mapperPolicy: {
+            root: /astro/users/krughoff/lsst/lsst_devel/Linux64/afwdata/ImSim/
+        }
+    }
+    inputItems: {
+        Exposure: {
+            datasetType: raw
+            datasetId: {
+                fromInputDatasets: true
+            }
+        }
+        BiasExposure: {
+            datasetType: bias
+            datasetId: {
+                fromJobIdentity: "visit" "snap" "raft" "sensor" "channel"
+            }
+        }
+        DarkExposure: {
+            datasetType: dark
+            datasetId: {
+                fromJobIdentity: "visit" "snap" "raft" "sensor" "channel"
+            }
+        }
+        flatExposure: {
+            datasetType: flat
+            datasetId: {
+                fromJobIdentity: "visit" "snap" "raft" "sensor" "channel"
+            }
+        }
+        fringeExposure: {
+            datasetType: fringe
+            datasetId: {
+                fromJobIdentity: "visit" "snap" "raft" "sensor" "channel"
+            }
+        }
+    }
+}
