@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 import math
 import lsst.pex.harness.stage as harnessStage
+import lsst.afw.display.ds9 as ds9
+
 
 from lsst.pex.logging import Log
 

@@ -16,12 +16,6 @@ definitions: {
                     default: "Exposure"
                     maxOccurs: 1
                 }        
-                cameraInfo: {
-                    type: "string"
-                    description: "Class holding the camera information"
-                    default: "cameraInfo"
-                    maxOccurs: 1
-                }        
                 fwhm: {
                     type: "string"
                     description: "Default full width half maximum"

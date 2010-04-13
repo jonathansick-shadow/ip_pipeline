@@ -35,6 +35,12 @@ except NameError:
 #-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 def foo():
+    if len(sys.argv) == 3:
+        ix = int(sys.argv[1])
+        iy = int(sys.argv[2])
+    else:
+        ix = 0
+        iy = 0
     afwDataDir = eups.productDir("afwdata")
     obsDir = eups.productDir('obs_lsstSim')
     isrDir = eups.productDir('ip_isr')
@@ -48,15 +54,15 @@ def foo():
     """Pipeline test case."""
     clipboard = pexClipboard.Clipboard()         
     clipboard.put('jobIdentity', {
-            'visit': 85751839, 'snap': 0,
-            'raft': "R:2,3", 'sensor': "S:1,1", 'channel': "00"
+            'visit': 0, 'snap': 0,
+            'raft': "R:2,3", 'sensor': "S:1,1", 'channel': "%i%i"%(ix,iy)
         })
     clipboard.put('inputDatasets', [
-            Dataset("raw", visit=85751839, snap=0,
-                raft="R:2,3", sensor="S:1,1", channel="00")
+            Dataset("raw", visit=0, snap=0,
+                raft="R:2,3", sensor="S:1,1", channel="%i%i"%(ix,iy))
         ])
     clipboard.put("fwhm", 5.)
-    p0 = pexPolicy.Policy.createPolicy("IsrInputStage.paf")
+    p0 = pexPolicy.Policy.createPolicy("MakeCalibInputStage.paf")
     s0 = lsst.pex.harness.IOStage.InputStage(p0)
     t0 = SimpleStageTester(s0)
 
@@ -73,52 +79,22 @@ def foo():
     clipboard.put(p3.get("inputKeys.overscanfittype"), "MEDIAN")
     s3 = ipPipe.IsrOverscanStage(p3)
     t3 = SimpleStageTester(s3)
-    file = pexPolicy.DefaultPolicyFile("ip_pipeline", 
-                                       "IsrBiasStageDictionary.paf",
-                                       "policy")
-    p4 = pexPolicy.Policy.createPolicy(file)
-    s4 = ipPipe.IsrBiasStage(p4)
-    t4 = SimpleStageTester(s4)
-    file = pexPolicy.DefaultPolicyFile("ip_pipeline", 
-                                       "IsrDarkStageDictionary.paf",
-                                       "policy")
-    p5 = pexPolicy.Policy.createPolicy(file)
-    s5 = ipPipe.IsrDarkStage(p5)
-    t5 = SimpleStageTester(s5)
 
-    #These are guesses to adhere to legacy policy files
-    #In the future these values should not be passed on the 
-    #clipboard.
-    #TODO get exposure times directly from exposure metadata
-    clipboard.put(p5.get("inputKeys.exposurescale"),
-            15)
-    clipboard.put(p5.get("inputKeys.darkscale"),
-            60)
-
-    file = pexPolicy.DefaultPolicyFile("ip_pipeline", 
-                                       "IsrFlatStageDictionary.paf",
-                                       "policy")
-    p6 = pexPolicy.Policy.createPolicy(file)
-    s6 = ipPipe.IsrFlatStage(p6)
-    t6 = SimpleStageTester(s6)
-    clipboard.put(p6.get("inputKeys.flatscalingtype"), 'MEAN')
     o0 = t0.runWorker(clipboard)
     o2 = t2.runWorker(o0)
+    if display:
+        ds9.mtv(o2.get(p2.get("outputKeys.saturationCorrectedExposure")), frame=0,
+            title= "Sat")
     o2.put(p3.get("inputKeys.exposure"),
         o2.get(p2.get("outputKeys.saturationCorrectedExposure")))
     o3 = t3.runWorker(o2)
-    o3.put(p4.get("inputKeys.exposure"),
-        o3.get(p3.get("outputKeys.overscanCorrectedExposure")))
-    o4 = t4.runWorker(o3)
-    o4.put(p5.get("inputKeys.exposure"),
-        o4.get(p4.get("outputKeys.biasSubtractedExposure")))
-    o5 = t5.runWorker(o4)
-    o5.put(p6.get("inputKeys.exposure"),
-        o5.get(p5.get("outputKeys.darkSubtractedExposure")))
-    o6 = t6.runWorker(o5)
-    exposure = o6.get(p6.get("outputKeys.flatCorrectedExposure"))
     if display:
-        ds9.mtv(exposure, frame=0, title="Output")
+        ds9.mtv(o3.get(p3.get("outputKeys.overscanCorrectedExposure")), frame=1,
+            title="Overscan")
+    exposure = o3.get(p3.get("outputKeys.overscanCorrectedExposure"))
+    exposure.writeFits("bias%i%i.fits"%(ix,iy))
+    if display:
+        ds9.mtv(exposure, frame=5, title="Output")
 
 if __name__=="__main__":
     foo()

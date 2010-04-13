@@ -22,18 +22,6 @@ definitions: {
                     default: "DarkExposure"
                     maxOccurs: 1
                 }        
-                darkscale: {
-                    type: "string"
-                    description: "Clipboard key of the scaling for the dark exposure"
-                    default: "darkScale"
-                    maxOccurs: 1
-                }        
-                exposurescale: {
-                    type: "string"
-                    description: "Clipboard key of the scaling for the science exposure"
-                    default: "exposureScale"
-                    maxOccurs: 1
-                }        
 
             }
         }

@@ -33,11 +33,12 @@ class IsrDarkStageParallel(harnessStage.ParallelProcessing):
         self.log.log(Log.INFO, "Doing dark subtraction.")
         
         #grab exposure and dark from clipboard
-        darkscaling = clipboard.get(self.policy.getString("inputKeys.darkscale"))
-        expscaling = clipboard.get(self.policy.getString("inputKeys.exposurescale"))
         darkexposure = clipboard.get(self.policy.getString("inputKeys.darkexposure"))
         exposure = clipboard.get(self.policy.getString("inputKeys.exposure"))
-        ipIsr.darkCorrection(exposure, darkexposure, expscaling, darkscaling)
+        darkscaling = darkexposure.getMetadata().get("EXPTIME")
+        expscaling = exposure.getMetadata().get("EXPTIME")
+        ipIsr.darkCorrection(exposure, darkexposure, float(expscaling),
+                float(darkscaling))
 
         #output products
         clipboard.put(self.policy.get("outputKeys.darkSubtractedExposure"), exposure)

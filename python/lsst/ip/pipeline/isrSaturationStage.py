@@ -35,22 +35,16 @@ class IsrSaturationStageParallel(harnessStage.ParallelProcessing):
         
         #grab exposure from clipboard
         exposure = clipboard.get(self.policy.getString("inputKeys.exposure"))
+        exposure = exposure.convertF()
         fwhm = clipboard.get(self.policy.getString("inputKeys.fwhm"))
         ampId = clipboard.get("ampId")
-        cameraInfo = clipboard.get(self.policy.getString("inputKeys.cameraInfo"))
-        amp = None
-        for r in cameraInfo:
-            raft = cameraGeom.cast_Raft(r)
-            for c in raft:
-                ccd = cameraGeom.cast_Ccd(c)
-                for a in ccd:
-                    if a.getId() == ampId:
-                        amp = a
+        amp = cameraGeom.cast_Amp(exposure.getDetector())
         saturation = amp.getElectronicParams().getSaturationLevel()
-        ipIsr.saturationCorrection(exposure, saturation, fwhm)
+        ipIsr.saturationCorrection(exposure, int(saturation), float(fwhm))
 
         #output products
-        clipboard.put(self.policy.get("outputKeys.saturationCorrectedExposure"), exposure)
+        clipboard.put(self.policy.get("outputKeys.saturationCorrectedExposure"),
+                exposure)
         
 class IsrSaturationStage(harnessStage.Stage):
     parallelClass = IsrSaturationStageParallel

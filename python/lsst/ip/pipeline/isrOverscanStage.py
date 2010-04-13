@@ -36,16 +36,7 @@ class IsrOverscanStageParallel(harnessStage.ParallelProcessing):
         #grab exposure and overscan bbox from clipboard
         exposure = clipboard.get(self.policy.getString("inputKeys.exposure"))
         fittype = clipboard.get(self.policy.getString("inputKeys.overscanfittype"))
-        ampId = clipboard.get("ampId")
-        cameraInfo = clipboard.get(self.policy.getString("inputKeys.cameraInfo"))
-        amp = None
-        for r in cameraInfo:
-            raft = cameraGeom.cast_Raft(r)
-            for c in raft:
-                ccd = cameraGeom.cast_Ccd(c)
-                for a in ccd:
-                    if a.getId() == ampId:
-                        amp = a
+	amp = cameraGeom.cast_Amp(exposure.getDetector())
         overscanBBox = amp.getDiskBiasSec()
         dataBBox = amp.getDiskDataSec()
         ipIsr.overscanCorrection(exposure, overscanBBox, fittype)

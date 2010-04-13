@@ -16,22 +16,10 @@ definitions: {
                     default: "Exposure"
                     maxOccurs: 1
                 }        
-                cameraInfo: {
-                    type: "string"
-                    description: "Class containing camera information."
-                    default: "cameraInfo"
-                    maxOccurs: 1
-                }        
                 overscanfittype: {
                     type: "string"
                     description: "specify the clipboard key of the overscan fit type (e.g. mean, median, polynomial, etc)."
                     default: "ovserscanFitType"
-                    maxOccurs: 1
-                }        
-                doTrim: {
-                    type: "string"
-                    description: "Key to specify whether to trim or not."
-                    default: "doTrim"
                     maxOccurs: 1
                 }        
             }

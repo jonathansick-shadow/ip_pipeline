@@ -6,7 +6,7 @@ parameters: {
     butler: {
         mapperName: lsst.obs.lsstSim.LsstSimMapper
 	mapperPolicy: {
-            root: %(input)
+            root: /astro/users/krughoff/lsst/lsst_devel/Linux64/afwdata/imsim_tmp/
         }
     }
     inputItems: {
