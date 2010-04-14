@@ -11,6 +11,7 @@ from isrFringeStage import *
 from isrLinearityStage import * 
 from isrOverscanStage import *
 from isrSaturationStage import *
+from isrCcdAssemblyStage import *
 from transformMetadataStage import *
 from validateMetadataStage import *
 

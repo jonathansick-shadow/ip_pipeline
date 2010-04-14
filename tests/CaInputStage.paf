@@ -1,0 +1,20 @@
+inputKeys: {
+    inputDatasets: inputDatasets
+    jobIdentity: jobIdentity
+}
+parameters: {
+    butler: {
+        mapperName: lsst.obs.lsstSim.LsstSimMapper
+	mapperPolicy: {
+            root: %(input)
+        }
+    }
+    inputItems: {
+        exposureList: {
+            datasetType: postIsr
+            datasetId: {
+                fromInputDatasets: true
+            }
+        }
+    }
+}

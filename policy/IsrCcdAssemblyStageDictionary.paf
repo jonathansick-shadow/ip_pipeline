@@ -1,0 +1,39 @@
+#<?cfg paf dictionary ?>
+#
+# Dictionary for IsrOverscanStage policies
+#
+target: lsst.ip.pipeline.IsrOverscanStage
+
+definitions: {
+    #input clipboard keys
+    inputKeys: {
+        type: "policy"
+        dictionary: {
+            definitions: {
+                exposureList: {
+                    type: "string"
+                    description: "List of amp exposures to asseble"
+                    default: "exposureList"
+                    maxOccurs: 1
+                }        
+            }
+        }
+        maxOccurs: 1        
+    }
+    
+    #output clipboard keys:
+    outputKeys: {
+        type: "policy"
+        dictionary: {
+            definitions: {
+                assembledCcdExposure: {
+                    type: "string"
+                    description: "assembled ccd exposure"
+                    maxOccurs: 1
+                    default: "assembledCcdExposure"
+                }
+            }
+        }
+        maxOccurs: 1
+    }
+}
