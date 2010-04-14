@@ -52,7 +52,6 @@ class IsrPipelineTestCase(unittest.TestCase):
                 Dataset("raw", visit=85751839, snap=0,
                     raft="R:2,3", sensor="S:1,1", channel="00")
             ])
-        self.clipboard.put("fwhm", 5.)
     def tearDown(self):
         for key in self.__dict__.keys():
             del self.__dict__[key]
@@ -76,7 +75,6 @@ class IsrPipelineTestCase(unittest.TestCase):
                                                "IsrOverscanStageDictionary.paf",
                                                "policy")
             p3 = pexPolicy.Policy.createPolicy(file)
-            self.clipboard.put(p3.get("inputKeys.overscanfittype"), "MEDIAN")
             s3 = ipPipe.IsrOverscanStage(p3)
             t3 = SimpleStageTester(s3)
             file = pexPolicy.DefaultPolicyFile("ip_pipeline", 
@@ -98,7 +96,7 @@ class IsrPipelineTestCase(unittest.TestCase):
             p6 = pexPolicy.Policy.createPolicy(file)
             s6 = ipPipe.IsrFlatStage(p6)
             t6 = SimpleStageTester(s6)
-            self.clipboard.put(p6.get("inputKeys.flatscalingtype"), 'MEAN')
+
             o0 = t0.runWorker(self.clipboard)
             o2 = t2.runWorker(o0)
             if display:
@@ -131,7 +129,7 @@ class IsrPipelineTestCase(unittest.TestCase):
             if display:
                 ds9.mtv(exposure, frame=5, title="Output")
         except Exception, e:
-            print e.message
+            print e
 
 def suite():
     """Returns a suite containing all the test cases in this module."""

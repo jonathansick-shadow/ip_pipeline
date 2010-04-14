@@ -22,12 +22,6 @@ definitions: {
                     default: "flatExposure"
                     maxOccurs: 1
                 }        
-                flatscalingtype: {
-                    type: "string"
-                    description: "Clipboard key for flat scling type MEAN or MEDIAN"
-                    default: "flatScalingType"
-                    maxOccurs: 1
-                }        
             }
         }
         maxOccurs: 1        
@@ -47,5 +41,19 @@ definitions: {
             }
         }
         maxOccurs: 1
+    }
+    parameters: {
+        type: "policy"
+        dictionary: {
+            definitions: {
+                flatScalingType: {
+                    type: "string"
+                    description: "Flat scaling type: MEAN, MIN, MAX"
+                    default: "MEAN"
+                    minOccurs: 1 
+                }
+                
+            }
+        }
     }
 }

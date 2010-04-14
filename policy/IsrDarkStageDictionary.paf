@@ -43,4 +43,25 @@ definitions: {
         }
         maxOccurs: 1
     }
+    parameters: {
+        type: "policy"
+        dictionary: {
+            definitions: {
+                darkscaleKeyword: {
+                    type: "string"
+                    description: "Dark exposure time keyword"
+                    default: "EXPTIME"
+                    minOccurs: 1 
+                }
+                exposurescaleKeyword: {
+                    type: "string"
+                    description: "Exposure time keyword"
+                    default: "EXPTIME"
+                    minOccurs: 1 
+                }
+                
+            }
+        }
+    }
+
 }

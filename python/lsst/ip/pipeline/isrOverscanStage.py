@@ -35,7 +35,8 @@ class IsrOverscanStageParallel(harnessStage.ParallelProcessing):
         
         #grab exposure and overscan bbox from clipboard
         exposure = clipboard.get(self.policy.getString("inputKeys.exposure"))
-        fittype = clipboard.get(self.policy.getString("inputKeys.overscanfittype"))
+        #fittype = clipboard.get(self.policy.getString("inputKeys.overscanfittype"))
+	fittype = self.policy.getString("parameters.overscanFitType")
 	amp = cameraGeom.cast_Amp(exposure.getDetector())
         overscanBBox = amp.getDiskBiasSec()
         dataBBox = amp.getDiskDataSec()

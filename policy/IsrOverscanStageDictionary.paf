@@ -16,12 +16,6 @@ definitions: {
                     default: "Exposure"
                     maxOccurs: 1
                 }        
-                overscanfittype: {
-                    type: "string"
-                    description: "specify the clipboard key of the overscan fit type (e.g. mean, median, polynomial, etc)."
-                    default: "ovserscanFitType"
-                    maxOccurs: 1
-                }        
             }
         }
         maxOccurs: 1        
@@ -42,4 +36,19 @@ definitions: {
         }
         maxOccurs: 1
     }
+    parameters: {
+        type: "policy"
+        dictionary: {
+            definitions: {
+                overscanFitType: {
+                    type: "string"
+                    description: "Overscan fit type"
+                    default: "MEDIAN"
+                    minOccurs: 1 
+                }
+                
+            }
+        }
+    }
+    
 }

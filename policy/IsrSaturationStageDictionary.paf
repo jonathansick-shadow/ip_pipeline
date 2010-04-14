@@ -16,12 +16,6 @@ definitions: {
                     default: "Exposure"
                     maxOccurs: 1
                 }        
-                fwhm: {
-                    type: "string"
-                    description: "Default full width half maximum"
-                    default: "fwhm"
-                    maxOccurs: 1
-                }        
             }
         }
         maxOccurs: 1        
@@ -41,5 +35,19 @@ definitions: {
             }
         }
         maxOccurs: 1
+    }
+    parameters: {
+        type: "policy"
+        dictionary: {
+            definitions: {
+                defaultFwhm: {
+                    type: "double"
+                    description: "Default FWHM seeing"
+                    default: 5.0
+                    minOccurs: 1 
+                }
+                
+            }
+        }
     }
 }

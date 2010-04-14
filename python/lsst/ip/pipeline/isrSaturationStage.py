@@ -36,8 +36,7 @@ class IsrSaturationStageParallel(harnessStage.ParallelProcessing):
         #grab exposure from clipboard
         exposure = clipboard.get(self.policy.getString("inputKeys.exposure"))
         exposure = exposure.convertF()
-        fwhm = clipboard.get(self.policy.getString("inputKeys.fwhm"))
-        ampId = clipboard.get("ampId")
+        fwhm = self.policy.getDouble("parameters.defaultFwhm")
         amp = cameraGeom.cast_Amp(exposure.getDetector())
         saturation = amp.getElectronicParams().getSaturationLevel()
         ipIsr.saturationCorrection(exposure, int(saturation), float(fwhm))
