@@ -11,7 +11,7 @@ parameters: {
     }
     inputItems: {
         exposureList: {
-            datasetType: postIsr
+            datasetType: postISR
             datasetId: {
                 fromInputDatasets: true
             }

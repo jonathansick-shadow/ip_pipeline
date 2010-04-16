@@ -46,11 +46,11 @@ class IsrPipelineTestCase(unittest.TestCase):
         self.clipboard = pexClipboard.Clipboard()         
         self.clipboard.put('jobIdentity', {
                 'visit': 85751839, 'snap': 0,
-                'raft': "R:2,3", 'sensor': "S:1,1", 'channel': "00"
+                'raft': "R:2,3", 'sensor': "S:1,1", 'channel': "C:0,0"
             })
         self.clipboard.put('inputDatasets', [
                 Dataset("raw", visit=85751839, snap=0,
-                    raft="R:2,3", sensor="S:1,1", channel="00")
+                    raft="R:2,3", sensor="S:1,1", channel="C:0,0")
             ])
     def tearDown(self):
         for key in self.__dict__.keys():

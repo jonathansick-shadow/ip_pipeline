@@ -49,61 +49,64 @@ class IsrCcdAssemblyTestCase(unittest.TestCase):
                 'raft': "R:2,3", 'sensor': "S:1,1"
             })
         self.clipboard.put('inputDatasets', [
-                Dataset("postIsr", visit=85751839, snap=0,
-                    raft="R:2,3", sensor="S:1,1", channel="00"),
-                Dataset("postIsr", visit=85751839, snap=0,
-                    raft="R:2,3", sensor="S:1,1", channel="01"),
-                Dataset("postIsr", visit=85751839, snap=0,
-                    raft="R:2,3", sensor="S:1,1", channel="02"),
-                Dataset("postIsr", visit=85751839, snap=0,
-                    raft="R:2,3", sensor="S:1,1", channel="03"),
-                Dataset("postIsr", visit=85751839, snap=0,
-                    raft="R:2,3", sensor="S:1,1", channel="04"),
-                Dataset("postIsr", visit=85751839, snap=0,
-                    raft="R:2,3", sensor="S:1,1", channel="05"),
-                Dataset("postIsr", visit=85751839, snap=0,
-                    raft="R:2,3", sensor="S:1,1", channel="06"),
-                Dataset("postIsr", visit=85751839, snap=0,
-                    raft="R:2,3", sensor="S:1,1", channel="07"),
-                Dataset("postIsr", visit=85751839, snap=0,
-                    raft="R:2,3", sensor="S:1,1", channel="10"),
-                Dataset("postIsr", visit=85751839, snap=0,
-                    raft="R:2,3", sensor="S:1,1", channel="11"),
-                Dataset("postIsr", visit=85751839, snap=0,
-                    raft="R:2,3", sensor="S:1,1", channel="12"),
-                Dataset("postIsr", visit=85751839, snap=0,
-                    raft="R:2,3", sensor="S:1,1", channel="13"),
-                Dataset("postIsr", visit=85751839, snap=0,
-                    raft="R:2,3", sensor="S:1,1", channel="14"),
-                Dataset("postIsr", visit=85751839, snap=0,
-                    raft="R:2,3", sensor="S:1,1", channel="15"),
-                Dataset("postIsr", visit=85751839, snap=0,
-                    raft="R:2,3", sensor="S:1,1", channel="16"),
-                Dataset("postIsr", visit=85751839, snap=0,
-                    raft="R:2,3", sensor="S:1,1", channel="17")
+                Dataset("postISR", visit=85751839, snap=0,
+                    raft="R:2,3", sensor="S:1,1", channel="C:0,0"),
+                Dataset("postISR", visit=85751839, snap=0,
+                    raft="R:2,3", sensor="S:1,1", channel="C:0,1"),
+                Dataset("postISR", visit=85751839, snap=0,
+                    raft="R:2,3", sensor="S:1,1", channel="C:0,2"),
+                Dataset("postISR", visit=85751839, snap=0,
+                    raft="R:2,3", sensor="S:1,1", channel="C:0,3"),
+                Dataset("postISR", visit=85751839, snap=0,
+                    raft="R:2,3", sensor="S:1,1", channel="C:0,4"),
+                Dataset("postISR", visit=85751839, snap=0,
+                    raft="R:2,3", sensor="S:1,1", channel="C:0,5"),
+                Dataset("postISR", visit=85751839, snap=0,
+                    raft="R:2,3", sensor="S:1,1", channel="C:0,6"),
+                Dataset("postISR", visit=85751839, snap=0,
+                    raft="R:2,3", sensor="S:1,1", channel="C:0,7"),
+                Dataset("postISR", visit=85751839, snap=0,
+                    raft="R:2,3", sensor="S:1,1", channel="C:1,0"),
+                Dataset("postISR", visit=85751839, snap=0,
+                    raft="R:2,3", sensor="S:1,1", channel="C:1,1"),
+                Dataset("postISR", visit=85751839, snap=0,
+                    raft="R:2,3", sensor="S:1,1", channel="C:1,2"),
+                Dataset("postISR", visit=85751839, snap=0,
+                    raft="R:2,3", sensor="S:1,1", channel="C:1,3"),
+                Dataset("postISR", visit=85751839, snap=0,
+                    raft="R:2,3", sensor="S:1,1", channel="C:1,4"),
+                Dataset("postISR", visit=85751839, snap=0,
+                    raft="R:2,3", sensor="S:1,1", channel="C:1,5"),
+                Dataset("postISR", visit=85751839, snap=0,
+                    raft="R:2,3", sensor="S:1,1", channel="C:1,6"),
+                Dataset("postISR", visit=85751839, snap=0,
+                    raft="R:2,3", sensor="S:1,1", channel="C:1,7")
             ])
     def tearDown(self):
         for key in self.__dict__.keys():
             del self.__dict__[key]
     def testPipe(self):
         """Pipeline test case."""
-        ps = dafBase.PropertySet() 
-        ps.set("input", self.datadir);
-        dafPersist.LogicalLocation.setLocationMap(ps)
-        p = pexPolicy.Policy()
-        p0 = pexPolicy.Policy.createPolicy("CaInputStage.paf")
-        s0 = lsst.pex.harness.IOStage.InputStage(p0)
-        t0 = SimpleStageTester(s0)
+        try:
+            ps = dafBase.PropertySet() 
+            ps.set("input", self.datadir);
+            dafPersist.LogicalLocation.setLocationMap(ps)
+            p = pexPolicy.Policy()
+            p0 = pexPolicy.Policy.createPolicy("CaInputStage.paf")
+            s0 = lsst.pex.harness.IOStage.InputStage(p0)
+            t0 = SimpleStageTester(s0)
 
-        file = pexPolicy.DefaultPolicyFile("ip_pipeline",
-             "IsrCcdAssemblyStageDictionary.paf", "policy")
-        p1 = pexPolicy.Policy.createPolicy(file)
-        s1 = ipPipe.IsrCcdAssemblyStage(p)
-        t1 = SimpleStageTester(s1)
+            file = pexPolicy.DefaultPolicyFile("ip_pipeline",
+                 "IsrCcdAssemblyStageDictionary.paf", "policy")
+            p1 = pexPolicy.Policy.createPolicy(file)
+            s1 = ipPipe.IsrCcdAssemblyStage(p)
+            t1 = SimpleStageTester(s1)
 
-        o0 = t0.runWorker(self.clipboard)
-        o1 = t1.runWorker(o0)
-        exposure = o1.get(p1.get("outputKeys.assembledCcdExposure"))
+            o0 = t0.runWorker(self.clipboard)
+            o1 = t1.runWorker(o0)
+            exposure = o1.get(p1.get("outputKeys.assembledCcdExposure"))
+        except Exception, e:
+            print e
         if writeFile:
             exposure.writeFits("Exposure.fits")
 
