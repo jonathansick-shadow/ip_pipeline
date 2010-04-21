@@ -60,6 +60,7 @@ class IsrPipelineTestCase(unittest.TestCase):
         try:
             ps = dafBase.PropertySet() 
             ps.set("input", self.datadir);
+            ps.set("cinput", self.datadir);
             dafPersist.LogicalLocation.setLocationMap(ps)
             p0 = pexPolicy.Policy.createPolicy("IsrInputStage.paf")
             s0 = lsst.pex.harness.IOStage.InputStage(p0)

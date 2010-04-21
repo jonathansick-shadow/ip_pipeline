@@ -4,6 +4,8 @@ import lsst.pex.harness.stage as harnessStage
 
 from lsst.pex.logging import Log
 
+import lsst.afw.cameraGeom as cameraGeom
+import lsst.afw.math as afwMath
 import lsst.pex.policy as pexPolicy
 import lsst.ip.isr as ipIsr
 
@@ -35,9 +37,13 @@ class IsrFlatStageParallel(harnessStage.ParallelProcessing):
         #grab exposure from clipboard
         exposure = clipboard.get(self.policy.getString("inputKeys.exposure"))
         flatexposure = clipboard.get(self.policy.getString("inputKeys.flatexposure"))
-        scalingtype = self.policy.getString("parameters.flatScalingType")
-        ipIsr.flatCorrection(exposure, flatexposure, scalingtype)
-
+	scalingtype = self.policy.getString("parameters.flatScalingType")
+	if scalingtype == "USER":
+            scalingvalue = self.policy.getDouble("parameters.flatScalingValue")
+            ipIsr.flatCorrection(exposure, flatexposure, "USER", scalingvalue)
+	else:
+            ipIsr.flatCorrection(exposure, flatexposure, scalingtype)
+	
         #output products
         clipboard.put(self.policy.get("outputKeys.flatCorrectedExposure"), exposure)
         

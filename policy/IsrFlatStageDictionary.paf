@@ -48,9 +48,15 @@ definitions: {
             definitions: {
                 flatScalingType: {
                     type: "string"
-                    description: "Flat scaling type: MEAN, MIN, MAX"
-                    default: "MEAN"
+                    description: "Flat scaling type: MEAN, MEDEAN, USER"
+                    default: "USER"
                     minOccurs: 1 
+                }
+                flatScalingValue: {
+                    type: "double"
+                    description: "Flat scaling value if type is USER"
+                    default: 8000.
+                    minOccurs: 0
                 }
                 
             }
