@@ -51,8 +51,9 @@ class SimCalibSaturationDefectStageParallel(harnessStage.ParallelProcessing):
         defectList = cameraGeom.cast_Ccd(amp.getParent()).getDefects()
         if amp.getId().getIndex()[1] == 1:
             for d in defectList:
-                d.shift(-x, -y)
-                bbox = d.getBBox()
+                d1 = measAlg.Defect(d.getBBox())
+                d1.shift(-x, -y)
+                bbox = d1.getBBox()
                 if bbox.getX0()-4 > width or bbox.getX1()-4 < 0 or \
                 height-bbox.getY0() - 1 > height or height-bbox.getY1() - 1 < 0:
                     pass
@@ -63,8 +64,9 @@ class SimCalibSaturationDefectStageParallel(harnessStage.ParallelProcessing):
                     dl.append(nd)
         else:
             for d in defectList:
-                d.shift(-x, -y)
-                bbox = d.getBBox()
+                d1 = measAlg.Defect(d.getBBox())
+                d1.shift(-x, -y)
+                bbox = d1.getBBox()
                 if bbox.getX0()-4 > width or bbox.getX1()-4 < 0 or \
                 bbox.getY0()-1 > height or bbox.getY1()-1 < 0:
                     pass
@@ -78,7 +80,7 @@ class SimCalibSaturationDefectStageParallel(harnessStage.ParallelProcessing):
                 fwhm, interpolate=True, maskName='BAD')
         ipIsr.saturationCorrection(exposure, int(saturation), fwhm,
                 growSaturated=False, interpolate=True)
-        #ds9.mtv(exposure, frame = 0)
+        #ds9.mtv(exposure, frame = 0, title = "my Amp")
         #exposure.writeFits("Amp.fits")
         #output products
         clipboard.put(self.policy.get("outputKeys.saturationCorrectedExposure"),
