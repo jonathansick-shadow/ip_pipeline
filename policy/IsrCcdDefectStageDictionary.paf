@@ -1,0 +1,53 @@
+#<?cfg paf dictionary ?>
+#
+# Dictionary for IsrCcdDefectStage policies
+#
+target: lsst.ip.pipeline.IsrCcdDefectStage
+
+definitions: {
+    #input clipboard keys
+    inputKeys: {
+        type: "policy"
+        dictionary: {
+            definitions: {
+                ccdExposure: {
+                    type: "string"
+                    description: "Full ccd exposure to mask defects on."
+                    default: "ccdExposure"
+                    maxOccurs: 1
+                }        
+            }
+        }
+        maxOccurs: 1        
+    }
+    
+    #output clipboard keys:
+    outputKeys: {
+        type: "policy"
+        dictionary: {
+            definitions: {
+                defectMaskedCcdExposure: {
+                    type: "string"
+                    description: "Masked ccd exposure"
+                    maxOccurs: 1
+                    default: "defectMaskedCcdExposure"
+                }
+            }
+        }
+        maxOccurs: 1
+    }
+    parameters: {
+        type: "policy"
+        dictionary: {
+            definitions: {
+                defaultFwhm: {
+                    type: "double"
+                    description: "Default FWHM seeing"
+                    default: 5.0
+                    minOccurs: 1 
+                }
+                
+            }
+        }
+    }
+}
