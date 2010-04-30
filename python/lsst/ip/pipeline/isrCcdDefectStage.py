@@ -36,7 +36,11 @@ class IsrCcdDefectStageParallel(harnessStage.ParallelProcessing):
         
         #grab exposure from clipboard
         exposure = clipboard.get(self.policy.getString("inputKeys.ccdExposure"))
-        defectList = cameraGeom.cast_Ccd(exposure.getDetector()).getDefects()
+        defectBaseList = cameraGeom.cast_Ccd(exposure.getDetector()).getDefects()
+        defectList = measAlg.DefectList()
+        for d in defectBaseList:
+            nd = measAlg.Defect(d.getBBox())
+            defectList.append(nd)
         ipIsr.maskBadPixelsDef(exposure, defectList,
             self.policy.getDouble("parameters.defaultFwhm"), interpolate=False, maskName='BAD')
         #output products

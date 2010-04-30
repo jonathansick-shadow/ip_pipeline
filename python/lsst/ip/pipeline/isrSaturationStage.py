@@ -39,7 +39,8 @@ class IsrSaturationStageParallel(harnessStage.ParallelProcessing):
         fwhm = self.policy.getDouble("parameters.defaultFwhm")
         amp = cameraGeom.cast_Amp(exposure.getDetector())
         saturation = amp.getElectronicParams().getSaturationLevel()
-        ipIsr.saturationCorrection(exposure, int(saturation), float(fwhm))
+        ipIsr.saturationCorrection(exposure, int(saturation), fwhm,
+                growSaturated = False, interpolate = False)
 
         #output products
         clipboard.put(self.policy.get("outputKeys.saturationCorrectedExposure"),

@@ -32,13 +32,13 @@ parameters: {
         flatExposure: {
             datasetType: flat
             datasetId: {
-                fromJobIdentity: "visit" "snap" "raft" "sensor" "channel"
+                fromJobIdentity: "visit" "snap" "raft" "sensor" "channel" "filter"
             }
         }
         fringeExposure: {
             datasetType: fringe
             datasetId: {
-                fromJobIdentity: "visit" "snap" "raft" "sensor" "channel"
+                fromJobIdentity: "visit" "snap" "raft" "sensor" "channel" "filter"
             }
         }
     }

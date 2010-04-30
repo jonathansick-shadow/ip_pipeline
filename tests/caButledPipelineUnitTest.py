@@ -34,7 +34,7 @@ try:
     type(writeFile)
 except NameError:
     display = False
-    writeFile = False
+    writeFile = True
 
 #-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 class IsrCcdAssemblyTestCase(unittest.TestCase):
@@ -46,41 +46,41 @@ class IsrCcdAssemblyTestCase(unittest.TestCase):
         self.clipboard = pexClipboard.Clipboard()         
         self.clipboard.put('jobIdentity', {
                 'visit': 85751839, 'snap': 0,
-                'raft': "R:2,3", 'sensor': "S:1,1"
+                'raft': "2,3", 'sensor': "1,1"
             })
         self.clipboard.put('inputDatasets', [
                 Dataset("postISR", visit=85751839, snap=0,
-                    raft="R:2,3", sensor="S:1,1", channel="C:0,0"),
+                    raft="2,3", sensor="1,1", channel="0,0"),
                 Dataset("postISR", visit=85751839, snap=0,
-                    raft="R:2,3", sensor="S:1,1", channel="C:0,1"),
+                    raft="2,3", sensor="1,1", channel="0,1"),
                 Dataset("postISR", visit=85751839, snap=0,
-                    raft="R:2,3", sensor="S:1,1", channel="C:0,2"),
+                    raft="2,3", sensor="1,1", channel="0,2"),
                 Dataset("postISR", visit=85751839, snap=0,
-                    raft="R:2,3", sensor="S:1,1", channel="C:0,3"),
+                    raft="2,3", sensor="1,1", channel="0,3"),
                 Dataset("postISR", visit=85751839, snap=0,
-                    raft="R:2,3", sensor="S:1,1", channel="C:0,4"),
+                    raft="2,3", sensor="1,1", channel="0,4"),
                 Dataset("postISR", visit=85751839, snap=0,
-                    raft="R:2,3", sensor="S:1,1", channel="C:0,5"),
+                    raft="2,3", sensor="1,1", channel="0,5"),
                 Dataset("postISR", visit=85751839, snap=0,
-                    raft="R:2,3", sensor="S:1,1", channel="C:0,6"),
+                    raft="2,3", sensor="1,1", channel="0,6"),
                 Dataset("postISR", visit=85751839, snap=0,
-                    raft="R:2,3", sensor="S:1,1", channel="C:0,7"),
+                    raft="2,3", sensor="1,1", channel="0,7"),
                 Dataset("postISR", visit=85751839, snap=0,
-                    raft="R:2,3", sensor="S:1,1", channel="C:1,0"),
+                    raft="2,3", sensor="1,1", channel="1,0"),
                 Dataset("postISR", visit=85751839, snap=0,
-                    raft="R:2,3", sensor="S:1,1", channel="C:1,1"),
+                    raft="2,3", sensor="1,1", channel="1,1"),
                 Dataset("postISR", visit=85751839, snap=0,
-                    raft="R:2,3", sensor="S:1,1", channel="C:1,2"),
+                    raft="2,3", sensor="1,1", channel="1,2"),
                 Dataset("postISR", visit=85751839, snap=0,
-                    raft="R:2,3", sensor="S:1,1", channel="C:1,3"),
+                    raft="2,3", sensor="1,1", channel="1,3"),
                 Dataset("postISR", visit=85751839, snap=0,
-                    raft="R:2,3", sensor="S:1,1", channel="C:1,4"),
+                    raft="2,3", sensor="1,1", channel="1,4"),
                 Dataset("postISR", visit=85751839, snap=0,
-                    raft="R:2,3", sensor="S:1,1", channel="C:1,5"),
+                    raft="2,3", sensor="1,1", channel="1,5"),
                 Dataset("postISR", visit=85751839, snap=0,
-                    raft="R:2,3", sensor="S:1,1", channel="C:1,6"),
+                    raft="2,3", sensor="1,1", channel="1,6"),
                 Dataset("postISR", visit=85751839, snap=0,
-                    raft="R:2,3", sensor="S:1,1", channel="C:1,7")
+                    raft="2,3", sensor="1,1", channel="1,7")
             ])
     def tearDown(self):
         for key in self.__dict__.keys():
