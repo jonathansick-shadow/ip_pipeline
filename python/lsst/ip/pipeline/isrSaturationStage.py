@@ -39,11 +39,12 @@ class IsrSaturationStageParallel(harnessStage.ParallelProcessing):
         fwhm = self.policy.getDouble("parameters.defaultFwhm")
         amp = cameraGeom.cast_Amp(exposure.getDetector())
         saturation = amp.getElectronicParams().getSaturationLevel()
-        ipIsr.saturationCorrection(exposure, int(saturation), fwhm,
-                growSaturated = False, interpolate = False)
+        bboxes = ipIsr.saturationDetection(exposure, int(saturation),
+                growSaturated = 1)
 
         #output products
-        clipboard.put(self.policy.get("outputKeys.saturationCorrectedExposure"),
+        clipboard.put(self.policy.get("outputKeys.satPixels"), bboxes)
+        clipboard.put(self.policy.get("outputKeys.saturationMaskedExposure"),
                 exposure)
         
 class IsrSaturationStage(harnessStage.Stage):
