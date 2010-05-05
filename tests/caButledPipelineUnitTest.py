@@ -42,45 +42,48 @@ class IsrCcdAssemblyTestCase(unittest.TestCase):
 
     def setUp(self):
         afwDataDir = eups.productDir("afwdata")
-        self.datadir = afwDataDir+"/ImSim"
+        self.root = afwDataDir+"/ImSim"
+        if not os.path.exists("registry.sqlite3"):
+            os.symlink(os.path.join(self.root, "registry.sqlite3"),
+                    "./registry.sqlite3")
         self.clipboard = pexClipboard.Clipboard()         
         self.clipboard.put('jobIdentity', {
                 'visit': 85751839, 'snap': 0,
-                'raft': "2,3", 'sensor': "1,1"
+                'raft': "2,3", 'sensor': "1,1", 'filter': "r"
             })
         self.clipboard.put('inputDatasets', [
                 Dataset("postISR", visit=85751839, snap=0,
-                    raft="2,3", sensor="1,1", channel="0,0"),
+                    raft="2,3", sensor="1,1", channel="0,0", filter="r"),
                 Dataset("postISR", visit=85751839, snap=0,
-                    raft="2,3", sensor="1,1", channel="0,1"),
+                    raft="2,3", sensor="1,1", channel="0,1", filter="r"),
                 Dataset("postISR", visit=85751839, snap=0,
-                    raft="2,3", sensor="1,1", channel="0,2"),
+                    raft="2,3", sensor="1,1", channel="0,2", filter="r"),
                 Dataset("postISR", visit=85751839, snap=0,
-                    raft="2,3", sensor="1,1", channel="0,3"),
+                    raft="2,3", sensor="1,1", channel="0,3", filter="r"),
                 Dataset("postISR", visit=85751839, snap=0,
-                    raft="2,3", sensor="1,1", channel="0,4"),
+                    raft="2,3", sensor="1,1", channel="0,4", filter="r"),
                 Dataset("postISR", visit=85751839, snap=0,
-                    raft="2,3", sensor="1,1", channel="0,5"),
+                    raft="2,3", sensor="1,1", channel="0,5", filter="r"),
                 Dataset("postISR", visit=85751839, snap=0,
-                    raft="2,3", sensor="1,1", channel="0,6"),
+                    raft="2,3", sensor="1,1", channel="0,6", filter="r"),
                 Dataset("postISR", visit=85751839, snap=0,
-                    raft="2,3", sensor="1,1", channel="0,7"),
+                    raft="2,3", sensor="1,1", channel="0,7", filter="r"),
                 Dataset("postISR", visit=85751839, snap=0,
-                    raft="2,3", sensor="1,1", channel="1,0"),
+                    raft="2,3", sensor="1,1", channel="1,0", filter="r"),
                 Dataset("postISR", visit=85751839, snap=0,
-                    raft="2,3", sensor="1,1", channel="1,1"),
+                    raft="2,3", sensor="1,1", channel="1,1", filter="r"),
                 Dataset("postISR", visit=85751839, snap=0,
-                    raft="2,3", sensor="1,1", channel="1,2"),
+                    raft="2,3", sensor="1,1", channel="1,2", filter="r"),
                 Dataset("postISR", visit=85751839, snap=0,
-                    raft="2,3", sensor="1,1", channel="1,3"),
+                    raft="2,3", sensor="1,1", channel="1,3", filter="r"),
                 Dataset("postISR", visit=85751839, snap=0,
-                    raft="2,3", sensor="1,1", channel="1,4"),
+                    raft="2,3", sensor="1,1", channel="1,4", filter="r"),
                 Dataset("postISR", visit=85751839, snap=0,
-                    raft="2,3", sensor="1,1", channel="1,5"),
+                    raft="2,3", sensor="1,1", channel="1,5", filter="r"),
                 Dataset("postISR", visit=85751839, snap=0,
-                    raft="2,3", sensor="1,1", channel="1,6"),
+                    raft="2,3", sensor="1,1", channel="1,6", filter="r"),
                 Dataset("postISR", visit=85751839, snap=0,
-                    raft="2,3", sensor="1,1", channel="1,7")
+                    raft="2,3", sensor="1,1", channel="1,7", filter="r")
             ])
     def tearDown(self):
         for key in self.__dict__.keys():
@@ -89,7 +92,7 @@ class IsrCcdAssemblyTestCase(unittest.TestCase):
         """Pipeline test case."""
         try:
             ps = dafBase.PropertySet() 
-            ps.set("input", self.datadir);
+            ps.set("input", self.root);
             dafPersist.LogicalLocation.setLocationMap(ps)
             p = pexPolicy.Policy()
             p0 = pexPolicy.Policy.createPolicy("CaInputStage.paf")
