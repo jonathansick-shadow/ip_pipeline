@@ -3,7 +3,7 @@ import math
 import lsst.pex.harness.stage as harnessStage
 
 from lsst.pex.logging import Log
-
+import lsst.afw.image as afwImage
 import lsst.pex.policy as pexPolicy
 import lsst.ip.isr as ipIsr
 import lsst.afw.cameraGeom as cameraGeom
@@ -39,11 +39,23 @@ class IsrSaturationStageParallel(harnessStage.ParallelProcessing):
         fwhm = self.policy.getDouble("parameters.defaultFwhm")
         amp = cameraGeom.cast_Amp(exposure.getDetector())
         saturation = amp.getElectronicParams().getSaturationLevel()
-        bboxes = ipIsr.saturationDetection(exposure, int(saturation),
+        bboxes = ipIsr.saturationDetection(exposure, int(saturation), doMask = True, 
                 growSaturated = 1)
-
+        '''
+        pim =\
+        amp.prepareAmpData(afwImage.ImageF(exposure.getMaskedImage().getImage(),
+            amp.getDiskDataSec(), True))
+        pmi = afwImage.makeMaskedImage(pim)
+        prepexp = afwImage.makeExposure(pmi)
+        bboxes = ipIsr.saturationDetection(prepexp, int(saturation), doMask = False,
+                growSaturated = 1)
+        for bbox in bboxes:
+            x0 = amp.getDataSec(True).getX0()
+            y0 = amp.getDataSec(True).getY0()
+            bbox.shift(x0,y0)
+        '''
         #output products
-        clipboard.put(self.policy.get("outputKeys.satPixels"), bboxes)
+        #clipboard.put(self.policy.get("outputKeys.satPixels"), bboxes)
         clipboard.put(self.policy.get("outputKeys.saturationMaskedExposure"),
                 exposure)
         
