@@ -39,8 +39,7 @@ class IsrSaturationStageParallel(harnessStage.ParallelProcessing):
         fwhm = self.policy.getDouble("parameters.defaultFwhm")
         amp = cameraGeom.cast_Amp(exposure.getDetector())
         saturation = amp.getElectronicParams().getSaturationLevel()
-        bboxes = ipIsr.saturationDetection(exposure, int(saturation), doMask = True, 
-                growSaturated = 1)
+        bboxes = ipIsr.saturationDetection(exposure, int(saturation), doMask = True)
         '''
         pim =\
         amp.prepareAmpData(afwImage.ImageF(exposure.getMaskedImage().getImage(),

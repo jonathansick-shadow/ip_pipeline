@@ -47,7 +47,7 @@ class IsrCcdDefectStageParallel(harnessStage.ParallelProcessing):
             nd = measAlg.Defect(d.getBBox())
             defectList.append(nd)
         fwhm = self.policy.getDouble("parameters.defaultFwhm")
-        ipIsr.saturationInterpolation(exposure, fwhm, maskName='SAT')
+        ipIsr.saturationInterpolation(exposure, fwhm, growFootprints=1, maskName='SAT')
         ipIsr.maskBadPixelsDef(exposure, defectList,
             fwhm, interpolate=True, maskName='BAD')
         #output products
