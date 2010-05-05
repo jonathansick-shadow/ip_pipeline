@@ -16,12 +16,6 @@ definitions: {
                     default: "ccdExposure"
                     maxOccurs: 1
                 }        
-                satPixels: {
-                    type: "string"
-                    description: "ipIsr.Bbox objects defining saturated pixels in the raw images."
-                    default: "satPixels"
-                    maxOccurs: 1
-                }        
             }
         }
         maxOccurs: 1        

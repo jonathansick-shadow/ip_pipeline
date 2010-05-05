@@ -32,12 +32,6 @@ definitions: {
                     maxOccurs: 1
                     default: "saturationMaskedExposure"
                 }
-                satPixels: {
-                    type: "string"
-                    description: "specify output clipboard key of the array of ipIsr.Bbox objects that define the saturated pixels in the input image"
-                    maxOccurs: 1
-                    default: "satPixels"
-                }
             }
         }
         maxOccurs: 1
