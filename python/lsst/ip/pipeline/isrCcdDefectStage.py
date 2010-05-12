@@ -37,19 +37,25 @@ class IsrCcdDefectStageParallel(harnessStage.ParallelProcessing):
         
         #grab exposure from clipboard
         exposure = clipboard.get(self.policy.getString("inputKeys.ccdExposure"))
-	#bboxesList = clipboard.get(self.policy.getString("inputKeys.satPixels"))
-        #bboxes = []
-        #for b in bboxesList:
-        #    bboxes += b
         defectBaseList = cameraGeom.cast_Ccd(exposure.getDetector()).getDefects()
         defectList = measAlg.DefectListT()
         for d in defectBaseList:
             nd = measAlg.Defect(d.getBBox())
             defectList.append(nd)
         fwhm = self.policy.getDouble("parameters.defaultFwhm")
-        ipIsr.saturationInterpolation(exposure, fwhm, growFootprints=1, maskName='SAT')
+        sdefects = ipIsr.defectListFromMask(exposure, growFootprints=1, maskName='SAT')
         ipIsr.maskBadPixelsDef(exposure, defectList,
-            fwhm, interpolate=True, maskName='BAD')
+            fwhm, interpolate=False, maskName='BAD')
+	for d in sdefects:
+	    nd = measAlg.Defect(d.getBBox())
+	    defectList.append(nd)
+	ipIsr.interpolateDefectList(exposure, defectList, fwhm)
+        unc = ipIsr.UnmaskedNanCounterF()
+        unc.apply(exposure.getMaskedImage())
+        nnans = unc.getNpix()
+        metadata = exposure.getMetadata()
+        metadata.set("numNans", nnans)
+	
         #output products
         clipboard.put(self.policy.get("outputKeys.defectMaskedCcdExposure"),
                 exposure)
