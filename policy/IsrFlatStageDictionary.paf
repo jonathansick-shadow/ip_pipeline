@@ -55,7 +55,7 @@ definitions: {
                 flatScalingValue: {
                     type: "double"
                     description: "Flat scaling value if type is USER"
-                    default: 8000.
+                    default: 1.
                     minOccurs: 0
                 }
                 
