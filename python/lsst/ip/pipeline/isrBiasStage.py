@@ -38,6 +38,7 @@ class IsrBiasStageParallel(harnessStage.ParallelProcessing):
         biasexposure = clipboard.get(self.policy.getString("inputKeys.biasexposure"))
         exposure = clipboard.get(self.policy.getString("inputKeys.exposure"))
         ipIsr.biasCorrection(exposure, biasexposure)
+        ipIsr.updateVariance(exposure)
         #output products
         clipboard.put(self.policy.get("outputKeys.biasSubtractedExposure"), exposure)
         
