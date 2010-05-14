@@ -39,6 +39,7 @@ class IsrDarkStageParallel(harnessStage.ParallelProcessing):
         expscaling = exposure.getMetadata().get(self.policy.getString("parameters.exposurescaleKeyword"))
         ipIsr.darkCorrection(exposure, darkexposure, float(expscaling),
                 float(darkscaling))
+        ipIsr.updateVariance(exposure)
 
         #output products
         clipboard.put(self.policy.get("outputKeys.darkSubtractedExposure"), exposure)
