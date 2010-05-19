@@ -55,6 +55,12 @@ class IsrCcdDefectStageParallel(harnessStage.ParallelProcessing):
         nnans = unc.getNpix()
         metadata = exposure.getMetadata()
         metadata.set("numNans", nnans)
+        if nnans == 0:
+            self.log.log(Log.INFO, "Zero unmasked nans/infs were found, which
+            is good.")
+        else:
+            self.log.log(Log.WARN, "%i unmasked nans/infs found in ccd
+            exposure"%(nnans))
 	
         #output products
         clipboard.put(self.policy.get("outputKeys.defectMaskedCcdExposure"),
