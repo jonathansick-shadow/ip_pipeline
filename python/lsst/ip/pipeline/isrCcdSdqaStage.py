@@ -33,8 +33,7 @@ class IsrCcdSdqaStageParallel(harnessStage.ParallelProcessing):
     def process(self, clipboard):
         """
         """
-        self.log.log(Log.INFO, "Calculate SDQA metrics based on the assembled
-                ccd.")
+        self.log.log(Log.INFO, "Calculate SDQA metrics based on the assembled ccd.")
         
         #grab exposure from clipboard
         exposure = clipboard.get(self.policy.getString("inputKeys.ccdExposure"))

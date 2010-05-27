@@ -43,7 +43,7 @@ class IsrOverscanStageParallel(harnessStage.ParallelProcessing):
         #calculation because the ratings requested at the moment can all be
         #calculated here.  If, for example, an Amp rating an the flat fielded
         #amp were requested, it would have to be calculated separately.
-        ipIsr.calculateSdqaAmpRatings(exposure, obserscanBbox, dataBbox)
+        ipIsr.calculateSdqaAmpRatings(exposure, overscanBbox, dataBbox)
         ipIsr.overscanCorrection(exposure, overscanBbox, fittype)
         #TODO optionally trim
         #output products

@@ -31,9 +31,9 @@ class IsrVarianceStageParallel(harnessStage.ParallelProcessing):
     def process(self, clipboard):
         """
         """
-        self.log.log(Log.INFO, "Doing bias subtraction.")
+        self.log.log(Log.INFO, "Calculating variance from image counts.")
         
-        #grab exposure and bias from clipboard
+        #grab exposure from clipboard
         exposure = clipboard.get(self.policy.getString("inputKeys.exposure"))
         ipIsr.updateVariance(exposure)
         #output products

@@ -43,7 +43,7 @@ definitions: {
     #parameters    
     crRejectPolicy: {
         type: "policy"
-        dictionary: @CrRejectDictionary.paf
+        dictionary: @urn:eupspkg:meas_algorithms:policy:CrRejectDictionary.paf
         description: "includes all the parameters needed to detect cosmic rays on an exposure"
         minOccurs: 1 
         maxOccurs: 1

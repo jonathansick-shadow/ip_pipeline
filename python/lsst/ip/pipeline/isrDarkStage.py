@@ -35,8 +35,8 @@ class IsrDarkStageParallel(harnessStage.ParallelProcessing):
         #grab exposure and dark from clipboard
         darkexposure = clipboard.get(self.policy.getString("inputKeys.darkexposure"))
         exposure = clipboard.get(self.policy.getString("inputKeys.exposure"))
-        darkscaling = darkexposure.getMetadata().get(self.policy.getString("parameters.darkscaleKeyword"))
-        expscaling = exposure.getMetadata().get(self.policy.getString("parameters.exposurescaleKeyword"))
+        darkscaling = darkexposure.getCalib().getExptime()
+        expscaling = exposure.getCalib().getExptime()
         ipIsr.darkCorrection(exposure, darkexposure, float(expscaling),
                 float(darkscaling))
 

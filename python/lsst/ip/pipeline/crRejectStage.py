@@ -6,6 +6,7 @@ from lsst.pex.logging import Log
 
 import lsst.pex.policy as pexPolicy
 import lsst.ip.utils as ipUtils
+import lsst.afw.display.ds9 as ds9
 
 try:
     type(display)
@@ -58,12 +59,10 @@ class CrRejectStageParallel(harnessStage.ParallelProcessing):
         defaultFwhm = self.policy.get('parameters.defaultFwhm') # in arcsec
         keepCRs = self.policy.get('parameters.keepCRs')
 
-        self.crRejectPolicy.set('gain', exposure.getMetadata().get('GAIN'))
-        # Set backwards compatible names; should fix meas/algorithms
-        self.crRejectPolicy.set('e_per_dn', self.crRejectPolicy.get('gain'))
         self.crRejectPolicy.set('min_sigma', self.crRejectPolicy.get('minSigma'))
 
         crs = ipUtils.cosmicRays.findCosmicRays(exposure, self.crRejectPolicy, defaultFwhm, keepCRs)
+        ds9.mtv(exposure, frame=0)
         nCR = len(crs)
 
         #output products

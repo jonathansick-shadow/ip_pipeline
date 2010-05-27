@@ -12,6 +12,8 @@ from isrOverscanStage import *
 from isrSaturationStage import *
 from isrCcdAssemblyStage import *
 from isrCcdDefectStage import *
+from isrVarianceStage import *
+from isrCcdSdqaStage import *
 from simCalibSaturationDefectStage import *
 from transformMetadataStage import *
 from validateMetadataStage import *
