@@ -59,8 +59,6 @@ class CrRejectStageParallel(harnessStage.ParallelProcessing):
         defaultFwhm = self.policy.get('parameters.defaultFwhm') # in arcsec
         keepCRs = self.policy.get('parameters.keepCRs')
 
-        self.crRejectPolicy.set('min_sigma', self.crRejectPolicy.get('minSigma'))
-
         crs = ipUtils.cosmicRays.findCosmicRays(exposure, self.crRejectPolicy, defaultFwhm, keepCRs)
         nCR = len(crs)
 
