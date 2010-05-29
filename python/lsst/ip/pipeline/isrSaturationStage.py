@@ -35,26 +35,14 @@ class IsrSaturationStageParallel(harnessStage.ParallelProcessing):
         
         #grab exposure from clipboard
         exposure = clipboard.get(self.policy.getString("inputKeys.exposure"))
-        exposure = ipIsr.convertImageForIsr(exposure)
+        isImsim = self.policy.getBool("parameters.isImsim")
+        exposure = ipIsr.convertImageForIsr(exposure, imsim=isImsim)
         fwhm = self.policy.getDouble("parameters.defaultFwhm")
         amp = cameraGeom.cast_Amp(exposure.getDetector())
         saturation = amp.getElectronicParams().getSaturationLevel()
         bboxes = ipIsr.saturationDetection(exposure, int(saturation), doMask = True)
-        '''
-        pim =\
-        amp.prepareAmpData(afwImage.ImageF(exposure.getMaskedImage().getImage(),
-            amp.getDiskDataSec(), True))
-        pmi = afwImage.makeMaskedImage(pim)
-        prepexp = afwImage.makeExposure(pmi)
-        bboxes = ipIsr.saturationDetection(prepexp, int(saturation), doMask = False,
-                growSaturated = 1)
-        for bbox in bboxes:
-            x0 = amp.getDataSec(True).getX0()
-            y0 = amp.getDataSec(True).getY0()
-            bbox.shift(x0,y0)
-        '''
+        self.log.log(Log.INFO, "Found %i saturated regions."%(len(bboxes)))
         #output products
-        #clipboard.put(self.policy.get("outputKeys.satPixels"), bboxes)
         clipboard.put(self.policy.get("outputKeys.saturationMaskedExposure"),
                 exposure)
         

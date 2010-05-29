@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-import math
 import lsst.pex.harness.stage as harnessStage
 import lsst.afw.display.ds9 as ds9
 
@@ -9,7 +8,7 @@ from lsst.pex.logging import Log
 import lsst.pex.policy as pexPolicy
 import lsst.ip.isr as ipIsr
 
-class IsrBiasStageParallel(harnessStage.ParallelProcessing):
+class IsrVarianceStageParallel(harnessStage.ParallelProcessing):
     """
     Description:
 
@@ -20,9 +19,9 @@ class IsrBiasStageParallel(harnessStage.ParallelProcessing):
     ClipboardOutput:
     """
     def setup(self):
-        self.log = Log(self.log, "IsrBiasStage - parallel")
+        self.log = Log(self.log, "IsrVarianceStage - parallel")
 
-        policyFile = pexPolicy.DefaultPolicyFile("ip_pipeline", "IsrBiasStageDictionary.paf", "policy")
+        policyFile = pexPolicy.DefaultPolicyFile("ip_pipeline", "IsrVarianceStageDictionary.paf", "policy")
         defPolicy = pexPolicy.Policy.createPolicy(policyFile, policyFile.getRepositoryPath())
 
         if self.policy is None:
@@ -32,15 +31,14 @@ class IsrBiasStageParallel(harnessStage.ParallelProcessing):
     def process(self, clipboard):
         """
         """
-        self.log.log(Log.INFO, "Doing bias subtraction.")
+        self.log.log(Log.INFO, "Calculating variance from image counts.")
         
-        #grab exposure and bias from clipboard
-        biasexposure = clipboard.get(self.policy.getString("inputKeys.biasexposure"))
+        #grab exposure from clipboard
         exposure = clipboard.get(self.policy.getString("inputKeys.exposure"))
-        ipIsr.biasCorrection(exposure, biasexposure)
+        ipIsr.updateVariance(exposure)
         #output products
-        clipboard.put(self.policy.get("outputKeys.biasSubtractedExposure"), exposure)
+        clipboard.put(self.policy.get("outputKeys.varianceAddedExposure"), exposure)
         
-class IsrBiasStage(harnessStage.Stage):
-    parallelClass = IsrBiasStageParallel
+class IsrVarianceStage(harnessStage.Stage):
+    parallelClass = IsrVarianceStageParallel
 

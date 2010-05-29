@@ -1,0 +1,39 @@
+#<?cfg paf dictionary ?>
+#
+# Dictionary for IsrCcdSdqaStage policies
+#
+target: lsst.ip.pipeline.IsrCcdSdqaStage
+
+definitions: {
+    #input clipboard keys
+    inputKeys: {
+        type: "policy"
+        dictionary: {
+            definitions: {
+                ccdExposure: {
+                    type: "string"
+                    description: "Full ccd exposure to calculate metrics on."
+                    default: "ccdExposure"
+                    maxOccurs: 1
+                }        
+            }
+        }
+        maxOccurs: 1        
+    }
+    
+    #output clipboard keys:
+    outputKeys: {
+        type: "policy"
+        dictionary: {
+            definitions: {
+                sdqaCcdExposure: {
+                    type: "string"
+                    description: "Exposure containing SDQA metric information"
+                    maxOccurs: 1
+                    default: "sdqaCcdExposure"
+                }
+            }
+        }
+        maxOccurs: 1
+    }
+}
