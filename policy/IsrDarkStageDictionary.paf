@@ -43,5 +43,4 @@ definitions: {
         }
         maxOccurs: 1
     }
-
 }
