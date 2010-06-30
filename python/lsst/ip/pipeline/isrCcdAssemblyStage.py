@@ -36,11 +36,11 @@ class IsrCcdAssemblyStageParallel(harnessStage.ParallelProcessing):
         
         #grab exposure from clipboard
         exposureList = clipboard.get(self.policy.getString("inputKeys.exposureList"))
-
+        rmKeys = self.policy.getArray("parameters.deleteFieldsList")
         amp = cameraGeom.cast_Amp(exposureList[0].getDetector())
         ccdId = amp.getParent().getId()
         ccd = cameraGeom.cast_Ccd(amp.getParent())
-        exposure = ipIsr.ccdAssemble.assembleCcd(exposureList, ccd)
+        exposure = ipIsr.ccdAssemble.assembleCcd(exposureList, ccd, keysToRemove=rmKeys)
                 #output products
         clipboard.put(self.policy.get("outputKeys.assembledCcdExposure"),
                 exposure)

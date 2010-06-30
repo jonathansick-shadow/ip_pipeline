@@ -36,4 +36,16 @@ definitions: {
         }
         maxOccurs: 1
     }
+    parameters: {
+        type: "policy"
+        dictionary: {
+            definitions: {
+                deleteFieldsList: {
+                    type: "string"
+                    description: "Array of FITS cards to delete when assembling amps."
+                    default: "CCDID" "AMPID" "E2AOCHI" "E2AOFILE" "DC3BPATH" "GAIN" "BIASSEC" "DATASEC"
+                }
+            }
+        }
+    }
 }

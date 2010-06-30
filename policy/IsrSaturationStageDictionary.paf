@@ -47,14 +47,6 @@ definitions: {
                     minOccurs: 1
                     maxOccurs: 1 
                 }
-                isImsim: {
-                    type: "bool"
-                    description: "Is the data being passed from ImSim?"
-                    default: false
-                    minOccurs: 1 
-                    maxOccurs: 1
-                }
-                
             }
         }
     }
