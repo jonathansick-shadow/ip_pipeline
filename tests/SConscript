@@ -6,4 +6,4 @@ Import("env")
 import lsst.tests
 
 tests = lsst.tests.Control(env, verbose = True)
-tests.run("*.py")
+tests.run("*Butled*.py")

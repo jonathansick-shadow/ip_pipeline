@@ -95,7 +95,7 @@ class IsrCcdAssemblyTestCase(unittest.TestCase):
             ps.set("input", self.root);
             dafPersist.LogicalLocation.setLocationMap(ps)
             p = pexPolicy.Policy()
-            p0 = pexPolicy.Policy.createPolicy("CaInputStage.paf")
+            p0 = pexPolicy.Policy.createPolicy(eups.productDir("ip_pipeline")+"/tests/" +"CaInputStage.paf")
             s0 = lsst.pex.harness.IOStage.InputStage(p0)
             t0 = SimpleStageTester(s0)
 
@@ -125,6 +125,8 @@ def suite():
 
     if not eups.productDir("afwdata"):
         print >> sys.stderr, "afwdata is not setting up; skipping test"
+    elif not eups.productDir("obs_lsstSim"):
+        print >> sys.stderr, "obs_lsstSim not set up; skipping test"
     else:        
         suites += unittest.makeSuite(IsrCcdAssemblyTestCase)
 

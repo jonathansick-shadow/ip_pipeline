@@ -66,7 +66,7 @@ class IsrPipelineTestCase(unittest.TestCase):
             ps.set("input", self.root);
             ps.set("cinput", self.root);
             dafPersist.LogicalLocation.setLocationMap(ps)
-            p0 = pexPolicy.Policy.createPolicy("IsrInputStage.paf")
+            p0 = pexPolicy.Policy.createPolicy(eups.productDir("ip_pipeline")+"/tests/"+"IsrInputStage.paf")
             s0 = lsst.pex.harness.IOStage.InputStage(p0)
             t0 = SimpleStageTester(s0)
 
@@ -145,6 +145,8 @@ def suite():
 
     if not eups.productDir("afwdata"):
         print >> sys.stderr, "afwdata is not setting up; skipping test"
+    elif not eups.productDir("obs_lsstSim"):
+        print >> sys.stderr, "obs_lsstSim not set up; skipping test"
     else:        
         suites += unittest.makeSuite(IsrPipelineTestCase)
 
