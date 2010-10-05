@@ -88,8 +88,7 @@ class IsrCcdDefectStageParallel(harnessStage.ParallelProcessing):
         if nnans == 0:
             self.log.log(Log.INFO, "Zero unmasked nans/infs were found, which is good.")
         else:
-            raise pexExcept.LsstException(nnans, \
-               "%i unmasked nans/infs found in ccd exposure: %s"%(nnans, id.__str__()))
+            self.log.log(Log.INFO, "%i unmasked nans/infs found in ccd exposure: %s"%(nnans, id.__str__()))
 	
         #output products
         clipboard.put(self.policy.get("outputKeys.defectMaskedCcdExposure"),
