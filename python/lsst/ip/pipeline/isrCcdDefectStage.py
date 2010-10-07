@@ -64,31 +64,46 @@ class IsrCcdDefectStageParallel(harnessStage.ParallelProcessing):
         
         #grab exposure from clipboard
         exposure = clipboard.get(self.policy.getString("inputKeys.ccdExposure"))
+        #get known defects from camera class
         defectBaseList = cameraGeom.cast_Ccd(exposure.getDetector()).getDefects()
         id = exposure.getDetector().getId()
         defectList = measAlg.DefectListT()
+        #create master list of defects and add those from the camera class
         for d in defectBaseList:
             bbox = d.getBBox()
             nd = measAlg.Defect(bbox)
             defectList.append(nd)
         fwhm = self.policy.getDouble("parameters.defaultFwhm")
+        #get saturated pixels from the mask
         sdefects = ipIsr.defectListFromMask(exposure, growFootprints=1, maskName='SAT')
+        #mask bad pixels in the camera class
         ipIsr.maskBadPixelsDef(exposure, defectList,
             fwhm, interpolate=False, maskName='BAD')
+        #add saturated pixels to master defect list
 	for d in sdefects:
             bbox = d.getBBox()
 	    nd = measAlg.Defect(bbox)
 	    defectList.append(nd)
-	ipIsr.interpolateDefectList(exposure, defectList, fwhm)
+        #find unmasked bad pixels and mask them
+        exposure.getMaskedImage().getMask().addMaskPlane("UNMASKEDNAN")	
         unc = ipIsr.UnmaskedNanCounterF()
         unc.apply(exposure.getMaskedImage())
         nnans = unc.getNpix()
         metadata = exposure.getMetadata()
-        metadata.set("numNans", nnans)
+        metadata.set("NUMNANS", nnans)
         if nnans == 0:
             self.log.log(Log.INFO, "Zero unmasked nans/infs were found, which is good.")
         else:
             self.log.log(Log.INFO, "%i unmasked nans/infs found in ccd exposure: %s"%(nnans, id.__str__()))
+        #get footprints of bad pixels not in the camera class
+        undefects = ipIsr.defectListFromMask(exposure, growFootprints=0, maskName='UNMASKEDNAN')
+	for d in undefects:
+            bbox = d.getBBox()
+	    nd = measAlg.Defect(bbox)
+	    defectList.append(nd)
+        #interpolate all bad pixels
+	ipIsr.interpolateDefectList(exposure, defectList, fwhm)
+        exposure.getMaskedImage().getMask().removeMaskPlane("UNMASKEDNAN")
 	
         #output products
         clipboard.put(self.policy.get("outputKeys.defectMaskedCcdExposure"),
