@@ -103,7 +103,6 @@ class IsrCcdDefectStageParallel(harnessStage.ParallelProcessing):
 	    defectList.append(nd)
         #interpolate all bad pixels
 	ipIsr.interpolateDefectList(exposure, defectList, fwhm)
-        exposure.getMaskedImage().getMask().removeMaskPlane("UNMASKEDNAN")
 	
         #output products
         clipboard.put(self.policy.get("outputKeys.defectMaskedCcdExposure"),
