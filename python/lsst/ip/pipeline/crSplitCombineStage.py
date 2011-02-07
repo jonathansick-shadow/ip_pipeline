@@ -81,6 +81,7 @@ class CrSplitCombineStageParallel(harnessStage.ParallelProcessing):
         combined.setXY0(mi0.getXY0())
         del mi0
         weightMap = combined.getImage().Factory(combined.getDimensions())
+        weightMap.setXY0(combined.getXY0())
 
         for i in range(0, 2):
             e = exposures[i]
