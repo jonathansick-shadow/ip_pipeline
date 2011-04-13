@@ -1,7 +1,7 @@
 setupRequired(ip_isr >= 4.1.0.0)
 setupRequired(ip_utils >= 4.1.0.0)
 setupRequired(coadd_utils >= 4.1.0.0)
-setupRequired(ip_diffim >= 4.1.0.0)
+# setupRequired(ip_diffim >= 4.1.0.0)
 setupRequired(ip_utils >= 4.1.0.0)
 setupRequired(meas_utils >= 4.1.0.0)
 setupRequired(pex_policy >= 3.4)
