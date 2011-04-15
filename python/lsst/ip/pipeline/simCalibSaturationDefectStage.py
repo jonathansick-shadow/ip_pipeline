@@ -27,6 +27,7 @@ import lsst.pex.harness.stage as harnessStage
 
 from lsst.pex.logging import Log
 
+import lsst.afw.geom as afwGeom
 import lsst.afw.cameraGeom as cameraGeom
 import lsst.afw.image as afwImage
 import lsst.meas.algorithms as measAlg
@@ -66,10 +67,10 @@ class SimCalibSaturationDefectStageParallel(harnessStage.ParallelProcessing):
         fwhm = self.policy.getDouble("parameters.defaultFwhm")
         amp = cameraGeom.cast_Amp(exposure.getDetector())
         dataBbox = amp.getDataSec(True)
-        x = dataBbox.getX0()
-        y = dataBbox.getY0()
-        height = dataBbox.getY1() - dataBbox.getY0()
-        width = dataBbox.getX1() - dataBbox.getX0()
+        x = dataBbox.getMinX()
+        y = dataBbox.getMinY()
+        height = dataBbox.getMaxY() - dataBbox.getMinY()
+        width = dataBbox.getMaxY() - dataBbox.getMinX()
         dl = measAlg.DefectListT()
         defectList = cameraGeom.cast_Ccd(amp.getParent()).getDefects()
         if amp.getId().getIndex()[1] == 1:
@@ -77,26 +78,26 @@ class SimCalibSaturationDefectStageParallel(harnessStage.ParallelProcessing):
                 d1 = measAlg.Defect(d.getBBox())
                 d1.shift(-x, -y)
                 bbox = d1.getBBox()
-                if bbox.getX0()-4 > width or bbox.getX1()-4 < 0 or \
-                height-bbox.getY0() - 1 > height or height-bbox.getY1() - 1 < 0:
+                if bbox.getMinX() - 4 > width or bbox.getMaxY() - 4 < 0 or \
+                    height - bbox.getMinY() - 1 > height or height - bbox.getMaxY() - 1 < 0:
                     pass
                 else:
-                    nd =\
-                    measAlg.Defect(afwImage.BBox(afwImage.PointI(bbox.getX0()+4,
-                        height - bbox.getY0()+1), bbox.getHeight(), bbox.getWidth()))
+                    nd = measAlg.Defect(afwGeom.Box2I(
+                        afwGeom.Point2I(bbox.getMinX() + 4, height - bbox.getMinY() + 1),
+                        bbox.getDimensions()))
                     dl.append(nd)
         else:
             for d in defectList:
                 d1 = measAlg.Defect(d.getBBox())
                 d1.shift(-x, -y)
                 bbox = d1.getBBox()
-                if bbox.getX0()-4 > width or bbox.getX1()-4 < 0 or \
-                bbox.getY0()-1 > height or bbox.getY1()-1 < 0:
+                if bbox.getMinX() - 4 > width or bbox.getMaxY() - 4 < 0 or \
+                    bbox.getMinY() - 1 > height or bbox.getMaxY() - 1 < 0:
                     pass
                 else:
-                    nd =\
-                    measAlg.Defect(afwImage.BBox(afwImage.PointI(bbox.getX0()+4,
-                        bbox.getY0()+1), bbox.getHeight(), bbox.getWidth()))
+                    nd = measAlg.Defect(afwGeom.Box2I(
+                        bbox.getMin() + afwGeom.Extent2I(4, 1),
+                        bbox.getDimensions()))
                     dl.append(nd)
         saturation = amp.getElectronicParams().getSaturationLevel()
         ipIsr.maskBadPixelsDef(exposure, dl,
