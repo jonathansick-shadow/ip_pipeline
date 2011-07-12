@@ -1,0 +1,72 @@
+#<?cfg paf dictionary ?>
+#
+# Dictionary for DiffImStage policies
+#
+target: lsst.ip.pipeline.DiffImStage
+
+definitions: {
+    #input clipboard keys
+    inputKeys: {
+        type: policy
+        dictionary: {
+            definitions: {
+                snap0ExposureKey: {
+                    type: string
+                    description: "clipboard key of the Exposure from snap 0."
+                    minOccurs: 1
+                    maxOccurs: 1
+                }        
+                snap1ExposureKey: {
+                    type: string
+                    description: "clipboard key of the Exposure from snap 1."
+                    minOccurs: 1
+                    maxOccurs: 1
+                }        
+            }
+        }
+        maxOccurs: 1        
+    }
+    
+    #output clipboard keys:
+    outputKeys: {
+        type: policy
+        dictionary: {
+            definitions: {
+                differenceExposureKey: {
+                    type: string
+                    description: "Resulting difference Exposure."
+                    maxOccurs: 1
+                    default: "differenceExposure"
+                }
+                kernelModelKey: {
+                    type: string
+                    description: "Resulting kernel model."
+                    maxOccurs: 1
+                    default: "kernelModel"
+                }
+                backgroundModelKey: {
+                    type: string
+                    description: "Resulting background model."
+                    maxOccurs: 1
+                    default: "backgroundModel"
+                }
+                kernelCellSetKey: {
+                    type: string
+                    description: "Resulting kernel cell set."
+                    maxOccurs: 1
+                    default: "kernelCellSet"
+                }
+            }
+        }
+        maxOccurs: 1
+    }
+    
+    #parameters    
+    diffImPolicy: {
+        type: policy
+        dictionary: @DiffImDictionary.paf
+        description: "includes all the parameters needed to run image subtraction on an exposure"
+        minOccurs: 1 
+        maxOccurs: 1
+    }
+}
