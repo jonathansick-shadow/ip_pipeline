@@ -62,7 +62,11 @@ class PairDiffImStageParallel(harnessStage.ParallelProcessing):
         if self.policy is None:
             self.policy = pexPolicy.Policy()
         self.policy.mergeDefaults(defPolicy.getDictionary())
-        self.diffImPolicy = self.policy.get("diffImPolicy")
+
+        # This is taken care of in ipDiffim.makeDefaultPolicy
+        # If this breaks an ip_pipeline standard we will have to fix ip_diffim
+        # self.diffImPolicy = self.policy.get("diffImPolicy")
+        self.diffImPolicy = ipDiffim.makeDefaultPolicy()
 
     def process(self, clipboard):
         """
@@ -75,19 +79,35 @@ class PairDiffImStageParallel(harnessStage.ParallelProcessing):
         snap1Exposure = clipboard.get(self.policy.getString("inputKeys.snap1ExposureKey"))
 
         # run image subtraction
-        policy = ipDiffim.makeDefaultPolicy(mergePolicy=self.diffImPolicy)
-        snapPolicy = ipDiffim.modifyForSnapSubtraction(policy)
+        snapPolicy = ipDiffim.modifyForSnapSubtraction(self.diffImPolicy)
         psfmatch = ipDiffim.ImagePsfMatch(snapPolicy)
-        results = psfmatch.subtractExposures(snap0Exposure, snap1Exposure,
-                doWarping=True)
+        results = psfmatch.subtractExposures(snap0Exposure, snap1Exposure, doWarping=False)
         snapDiff, kernelModel, bgModel, kernelCellSet = results
+
+        # ACB debugging
+        if False:
+            import lsst.afw.image as afwImage
+            kimage   = afwImage.ImageD(kernelModel.getDimensions())
+            kernelModel.computeImage(kimage, False)
+            kimage.writeFits("/tmp/kernel.fits")
+
+            snap0Exposure.writeFits("/tmp/exp0.fits")
+            snap1Exposure.writeFits("/tmp/exp1.fits")
+            snapDiff.writeFits("/tmp/diff.fits")
         
+            # straight "-=" for comparison
+            mi0 = snap0Exposure.getMaskedImage()
+            mi1 = snap1Exposure.getMaskedImage()
+            diffMI0  = afwImage.MaskedImageF(mi1, True)
+            diffMI0 -= mi0
+            diffMI0.writeFits("/tmp/sub.fits")
+
         #output products
         clipboard.put(self.policy.get("outputKeys.differenceExposureKey"),
                 snapDiff)
         clipboard.put(self.policy.get("outputKeys.kernelModelKey"),
                 kernelModel)
-        clipboard.put(self.policy.get("outputKeys.bgModelKey"),
+        clipboard.put(self.policy.get("outputKeys.backgroundModelKey"),
                 bgModel)
         clipboard.put(self.policy.get("outputKeys.kernelCellSetKey"),
                 kernelCellSet)
