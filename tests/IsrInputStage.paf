@@ -35,11 +35,5 @@ parameters: {
                 fromJobIdentity: "visit" "snap" "raft" "sensor" "channel" "filter"
             }
         }
-        fringeExposure: {
-            datasetType: fringe
-            datasetId: {
-                fromJobIdentity: "visit" "snap" "raft" "sensor" "channel" "filter"
-            }
-        }
     }
 }

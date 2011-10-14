@@ -85,7 +85,6 @@ class IsrPipelineTestCase(unittest.TestCase):
         """Pipeline test case."""
         try:
             ps = dafBase.PropertySet() 
-            print self.root
             ps.set("input", self.root);
             ps.set("cinput", self.root);
             dafPersist.LogicalLocation.setLocationMap(ps)
