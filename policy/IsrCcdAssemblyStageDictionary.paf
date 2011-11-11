@@ -45,11 +45,6 @@ definitions: {
                     description: "Array of FITS cards to delete when assembling amps."
                     default: "CCDID" "AMPID" "E2AOCHI" "E2AOFILE" "DC3BPATH" "GAIN" "BIASSEC" "DATASEC"
                 }
-                inCcs: {
-                    type: "bool"
-                    description: "Is the data stored on disk in camera coordinates (true) or electronic coordinates (false)"
-                    default: false
-                }
             }
         }
     }

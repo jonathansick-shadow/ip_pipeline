@@ -64,7 +64,7 @@ class IsrCcdAssemblyStageParallel(harnessStage.ParallelProcessing):
         ccdId = amp.getParent().getId()
         ccd = cameraGeom.cast_Ccd(amp.getParent())
         exposure = ipIsr.ccdAssemble.assembleCcd(exposureList, ccd,
-                keysToRemove=rmKeys, inCcs=self.policy.getBool("parameters.inCcs"))
+                keysToRemove=rmKeys)
         #output products
         clipboard.put(self.policy.get("outputKeys.assembledCcdExposure"),
                 exposure)
