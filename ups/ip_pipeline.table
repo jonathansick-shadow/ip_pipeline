@@ -1,5 +1,5 @@
 setupRequired(coadd_utils >= 4.6.0.0)
-# setupRequired(ip_diffim >= 4.6.0.0)
+setupRequired(ip_diffim >= 4.6.0.0)
 setupRequired(ip_isr >= 4.6.0.0)
 setupRequired(ip_utils >= 4.6.0.0)
 setupRequired(meas_utils >= 4.6.0.0)
