@@ -206,7 +206,7 @@ class DiffImStageTestCase(unittest.TestCase):
                                              "DiffImStageDictionary.paf", "policy")
         policy = pexPolicy.Policy.createPolicy(policyFile, policyFile.getRepositoryPath(), True)
 
-        self.subBackground(policy.get("diffImPolicy"))
+        self.subBackground(policy.get("diffImPolicy").get("backgroundPolicy"))
 
         stage  = ipPipe.DiffImStage(policy)
         tester = SimpleStageTester(stage)

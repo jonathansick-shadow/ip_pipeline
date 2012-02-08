@@ -24,7 +24,7 @@ from .version import *
 from crRejectStage import *
 from simpleDiffImStage import *
 from crSplitCombineStage import *
-# from diffImStage import *
+from diffImStage import *
 from pairDiffImStage import *
 from makeCameraGeomStage import *
 from isrBiasStage import *

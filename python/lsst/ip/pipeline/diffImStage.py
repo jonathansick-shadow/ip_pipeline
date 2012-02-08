@@ -58,7 +58,7 @@ class DiffImStageParallel(harnessStage.ParallelProcessing):
         if self.policy is None:
             self.policy = pexPolicy.Policy()
         self.policy.mergeDefaults(defPolicy.getDictionary())
-        self.diffImPolicy = self.policy.get("diffImPolicy")
+        self.diffImPolicy = ipDiffim.makeDefaultPolicy()
 
     def process(self, clipboard):
         """
@@ -71,9 +71,8 @@ class DiffImStageParallel(harnessStage.ParallelProcessing):
         scienceExposure  = clipboard.get(self.policy.getString("inputKeys.scienceExposureKey"))
 
         # run image subtraction
-        results = ipDiffim.subtractExposure(templateExposure,
-                                            scienceExposure,
-                                            self.diffImPolicy)
+        psfMatch = ipDiffim.ImagePsfMatch(self.diffImPolicy)
+        results = psfMatch.subtractExposures(templateExposure, scienceExposure)
         
         # parse results
         differenceExposure, spatialKernel, backgroundModel, kernelCellSet = results
