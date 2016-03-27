@@ -1,7 +1,7 @@
-# 
+#
 # LSST Data Management System
 # Copyright 2008, 2009, 2010 LSST Corporation.
-# 
+#
 # This product includes software developed by the
 # LSST Project (http://www.lsst.org/).
 #
@@ -9,14 +9,14 @@
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
-# You should have received a copy of the LSST License Statement and 
-# the GNU General Public License along with this program.  If not, 
+#
+# You should have received a copy of the LSST License Statement and
+# the GNU General Public License along with this program.  If not,
 # see <http://www.lsstcorp.org/LegalNotices/>.
 #
 
@@ -31,10 +31,12 @@ from lsst.daf.persistence import LogicalLocation
 import lsst.ip.isr.calibDatabase as calibDatabase
 import lsst.afw.cameraGeom as cameraGeom
 
+
 class IdentifyCalibrationProductsStageParallel(harnessStage.ParallelProcessing):
+
     def setup(self):
         policyFile = pexPolicy.DefaultPolicyFile("ip_pipeline",
-                "IdentifyCalibrationProductsStageDictionary.paf", "policy")
+                                                 "IdentifyCalibrationProductsStageDictionary.paf", "policy")
         defPolicy = pexPolicy.Policy.createPolicy(policyFile, policyFile.getRepositoryPath())
 
         if self.policy is None:
@@ -57,7 +59,7 @@ class IdentifyCalibrationProductsStageParallel(harnessStage.ParallelProcessing):
 
         ccdId = metadata.get("ccdId")
         ampId = metadata.get("ampId")
-        
+
         expTime = metadata.get("expTime")
         darkToApply = self.policy.getString("whichdark")
         darkCalibList = cdb.lookup(when, "dark", ccdId, ampId, all=True)
@@ -81,13 +83,12 @@ class IdentifyCalibrationProductsStageParallel(harnessStage.ParallelProcessing):
         else:
             raise RuntimeError, "Unrecognized method for finding dark to apply: " + str(darktoapply)
 
-
         biasPath = cdb.lookup(when, "bias", ccdId, ampId)
         darkPath = cdb.lookup(when, "dark", ccdId, ampId,
-                expTime=darkExpTime)
+                              expTime=darkExpTime)
         defectPath = cdb.lookup(when, "defect", ccdId, ampId)
         flatPath = cdb.lookup(when, "flat", ccdId, ampId,
-                filter=metadata.get("filter"))
+                              filter=metadata.get("filter"))
 #         fringePath = cdb.lookup(when, "fringe", ccdId, ampId,
 #                 filter=metadata.get("filter"))
         linearizePath = cdb.lookup(when, "linearize", ccdId, ampId)

@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 
-# 
+#
 # LSST Data Management System
 # Copyright 2008, 2009, 2010 LSST Corporation.
-# 
+#
 # This product includes software developed by the
 # LSST Project (http://www.lsst.org/).
 #
@@ -11,14 +11,14 @@
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
-# You should have received a copy of the LSST License Statement and 
-# the GNU General Public License along with this program.  If not, 
+#
+# You should have received a copy of the LSST License Statement and
+# the GNU General Public License along with this program.  If not,
 # see <http://www.lsstcorp.org/LegalNotices/>.
 #
 
@@ -36,6 +36,7 @@ import lsst.pex.policy as pexPolicy
 import lsst.ip.isr as ipIsr
 import lsst.afw.cameraGeom as cameraGeom
 
+
 class SimCalibSaturationDefectStageParallel(harnessStage.ParallelProcessing):
     """
     Description:
@@ -46,6 +47,7 @@ class SimCalibSaturationDefectStageParallel(harnessStage.ParallelProcessing):
 
     ClipboardOutput:
     """
+
     def setup(self):
         self.log = Log(self.log, "IsrSaturationStage - parallel")
 
@@ -60,8 +62,8 @@ class SimCalibSaturationDefectStageParallel(harnessStage.ParallelProcessing):
         """
         """
         self.log.log(Log.INFO, "Doing Saturation correction.")
-        
-        #grab exposure from clipboard
+
+        # grab exposure from clipboard
         exposure = clipboard.get(self.policy.getString("inputKeys.exposure"))
         exposure = ipIsr.convertImageForIsr(exposure)
         fwhm = self.policy.getDouble("parameters.defaultFwhm")
@@ -79,7 +81,7 @@ class SimCalibSaturationDefectStageParallel(harnessStage.ParallelProcessing):
                 d1.shift(-x, -y)
                 bbox = d1.getBBox()
                 if bbox.getMinX() - 4 > width or bbox.getMaxY() - 4 < 0 or \
-                    height - bbox.getMinY() - 1 > height or height - bbox.getMaxY() - 1 < 0:
+                        height - bbox.getMinY() - 1 > height or height - bbox.getMaxY() - 1 < 0:
                     pass
                 else:
                     nd = measAlg.Defect(afwGeom.Box2I(
@@ -92,7 +94,7 @@ class SimCalibSaturationDefectStageParallel(harnessStage.ParallelProcessing):
                 d1.shift(-x, -y)
                 bbox = d1.getBBox()
                 if bbox.getMinX() - 4 > width or bbox.getMaxY() - 4 < 0 or \
-                    bbox.getMinY() - 1 > height or bbox.getMaxY() - 1 < 0:
+                        bbox.getMinY() - 1 > height or bbox.getMaxY() - 1 < 0:
                     pass
                 else:
                     nd = measAlg.Defect(afwGeom.Box2I(
@@ -101,15 +103,16 @@ class SimCalibSaturationDefectStageParallel(harnessStage.ParallelProcessing):
                     dl.append(nd)
         saturation = amp.getElectronicParams().getSaturationLevel()
         ipIsr.maskBadPixelsDef(exposure, dl,
-                fwhm, interpolate=True, maskName='BAD')
+                               fwhm, interpolate=True, maskName='BAD')
         ipIsr.saturationCorrection(exposure, int(saturation), fwhm,
-                growSaturated=False, interpolate=True)
+                                   growSaturated=False, interpolate=True)
         #ds9.mtv(exposure, frame = 0, title = "my Amp")
-        #exposure.writeFits("Amp.fits")
-        #output products
+        # exposure.writeFits("Amp.fits")
+        # output products
         clipboard.put(self.policy.get("outputKeys.saturationCorrectedExposure"),
-                exposure)
-        
+                      exposure)
+
+
 class SimCalibSaturationDefectStage(harnessStage.Stage):
     parallelClass = SimCalibSaturationDefectStageParallel
 

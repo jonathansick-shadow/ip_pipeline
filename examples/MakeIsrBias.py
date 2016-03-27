@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 
-# 
+#
 # LSST Data Management System
 # Copyright 2008, 2009, 2010 LSST Corporation.
-# 
+#
 # This product includes software developed by the
 # LSST Project (http://www.lsst.org/).
 #
@@ -11,14 +11,14 @@
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
-# You should have received a copy of the LSST License Statement and 
-# the GNU General Public License along with this program.  If not, 
+#
+# You should have received a copy of the LSST License Statement and
+# the GNU General Public License along with this program.  If not,
 # see <http://www.lsstcorp.org/LegalNotices/>.
 #
 
@@ -28,7 +28,9 @@ or
    python
 """
 
-import sys, os, math
+import sys
+import os
+import math
 from math import *
 
 import pdb
@@ -57,6 +59,7 @@ except NameError:
 
 #-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
+
 def foo():
     if len(sys.argv) == 3:
         ix = int(sys.argv[1])
@@ -68,34 +71,34 @@ def foo():
     obsDir = eups.productDir('obs_lsstSim')
     isrDir = eups.productDir('ip_isr')
     pipelineDir = eups.productDir('ip_pipeline')
-    lutpolicypath = os.path.join(isrDir,"pipeline")
-    pipepolicypath = os.path.join(pipelineDir,"policy")
+    lutpolicypath = os.path.join(isrDir, "pipeline")
+    pipepolicypath = os.path.join(pipelineDir, "policy")
     dc3MetadataFile = 'dc3MetadataPolicy.paf'
     simDatatypeFile = 'simDataTypePolicy.paf'
     suffix = "Keyword"
 
     """Pipeline test case."""
-    clipboard = pexClipboard.Clipboard()         
+    clipboard = pexClipboard.Clipboard()
     clipboard.put('jobIdentity', {
-            'visit': 0, 'snap': 0,
-            'raft': "R:2,3", 'sensor': "S:1,1", 'channel': "%i%i"%(ix,iy)
-        })
+        'visit': 0, 'snap': 0,
+        'raft': "R:2,3", 'sensor': "S:1,1", 'channel': "%i%i"%(ix, iy)
+    })
     clipboard.put('inputDatasets', [
-            Dataset("raw", visit=0, snap=0,
-                raft="R:2,3", sensor="S:1,1", channel="%i%i"%(ix,iy))
-        ])
+        Dataset("raw", visit=0, snap=0,
+                raft="R:2,3", sensor="S:1,1", channel="%i%i"%(ix, iy))
+    ])
     clipboard.put("fwhm", 5.)
     p0 = pexPolicy.Policy.createPolicy("MakeCalibInputStage.paf")
     s0 = lsst.pex.harness.IOStage.InputStage(p0)
     t0 = SimpleStageTester(s0)
 
-    file = pexPolicy.DefaultPolicyFile("ip_pipeline", 
+    file = pexPolicy.DefaultPolicyFile("ip_pipeline",
                                        "IsrSaturationStageDictionary.paf",
                                        "policy")
     p2 = pexPolicy.Policy.createPolicy(file)
     s2 = ipPipe.IsrSaturationStage(p2)
     t2 = SimpleStageTester(s2)
-    file = pexPolicy.DefaultPolicyFile("ip_pipeline", 
+    file = pexPolicy.DefaultPolicyFile("ip_pipeline",
                                        "IsrOverscanStageDictionary.paf",
                                        "policy")
     p3 = pexPolicy.Policy.createPolicy(file)
@@ -107,17 +110,17 @@ def foo():
     o2 = t2.runWorker(o0)
     if display:
         ds9.mtv(o2.get(p2.get("outputKeys.saturationCorrectedExposure")), frame=0,
-            title= "Sat")
+                title= "Sat")
     o2.put(p3.get("inputKeys.exposure"),
-        o2.get(p2.get("outputKeys.saturationCorrectedExposure")))
+           o2.get(p2.get("outputKeys.saturationCorrectedExposure")))
     o3 = t3.runWorker(o2)
     if display:
         ds9.mtv(o3.get(p3.get("outputKeys.overscanCorrectedExposure")), frame=1,
-            title="Overscan")
+                title="Overscan")
     exposure = o3.get(p3.get("outputKeys.overscanCorrectedExposure"))
-    exposure.writeFits("bias%i%i.fits"%(ix,iy))
+    exposure.writeFits("bias%i%i.fits"%(ix, iy))
     if display:
         ds9.mtv(exposure, frame=5, title="Output")
 
-if __name__=="__main__":
+if __name__ == "__main__":
     foo()

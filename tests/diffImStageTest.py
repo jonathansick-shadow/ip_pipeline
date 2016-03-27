@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 
-# 
+#
 # LSST Data Management System
 # Copyright 2008, 2009, 2010 LSST Corporation.
-# 
+#
 # This product includes software developed by the
 # LSST Project (http://www.lsst.org/).
 #
@@ -11,14 +11,14 @@
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
-# You should have received a copy of the LSST License Statement and 
-# the GNU General Public License along with this program.  If not, 
+#
+# You should have received a copy of the LSST License Statement and
+# the GNU General Public License along with this program.  If not,
 # see <http://www.lsstcorp.org/LegalNotices/>.
 #
 
@@ -31,7 +31,9 @@ or
    >>> diffImStageTest.run()
 """
 
-import sys, os, math
+import sys
+import os
+import math
 from math import *
 
 import pdb
@@ -55,21 +57,23 @@ try:
     type(display)
 except NameError:
     display = False
-    
+
 Verbosity = 5
 logging.Trace_setVerbosity('lsst.ip.diffim', Verbosity)
 
 #-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
+
 class ValidationTestCase(unittest.TestCase):
     """A test case for policy validation"""
-    def getTestDictionary(self, filename=None): 
-        directory = os.path.join(eups.productDir("ip_pipeline"), "policy") 
+
+    def getTestDictionary(self, filename=None):
+        directory = os.path.join(eups.productDir("ip_pipeline"), "policy")
         return os.path.join(directory, filename) if filename else directory
-    
+
     def testValidation(self):
-        policyFile = pexPolicy.DefaultPolicyFile("ip_pipeline", 
-                                             "DiffImStageDictionary.paf", "policy")
+        policyFile = pexPolicy.DefaultPolicyFile("ip_pipeline",
+                                                 "DiffImStageDictionary.paf", "policy")
         defPolicy = pexPolicy.Policy.createPolicy(policyFile, policyFile.getRepositoryPath(), True)
 
         # only 3,4,5 allowed
@@ -178,7 +182,6 @@ class ValidationTestCase(unittest.TestCase):
             pass
         else:
             self.fail()
-            
 
 
 class DiffImStageTestCase(unittest.TestCase):
@@ -189,8 +192,8 @@ class DiffImStageTestCase(unittest.TestCase):
                                       "v26-e0-c011-a00.sci")
         defTemplatePath = os.path.join(eups.productDir("afwdata"), "DC3a-Sim", "sci", "v5-e0",
                                        "v5-e0-c011-a00.sci")
-        self.scienceExposure   = afwImage.ExposureF(defSciencePath)
-        self.templateExposure  = afwImage.ExposureF(defTemplatePath)
+        self.scienceExposure = afwImage.ExposureF(defSciencePath)
+        self.templateExposure = afwImage.ExposureF(defTemplatePath)
 
     def tearDown(self):
         del self.scienceExposure
@@ -202,16 +205,16 @@ class DiffImStageTestCase(unittest.TestCase):
                                                 self.scienceExposure.getMaskedImage()])
 
     def testSingleExposure(self):
-        policyFile = pexPolicy.DefaultPolicyFile("ip_pipeline", 
-                                             "DiffImStageDictionary.paf", "policy")
+        policyFile = pexPolicy.DefaultPolicyFile("ip_pipeline",
+                                                 "DiffImStageDictionary.paf", "policy")
         policy = pexPolicy.Policy.createPolicy(policyFile, policyFile.getRepositoryPath(), True)
 
         self.subBackground(policy.get("diffImPolicy").get("backgroundPolicy"))
 
-        stage  = ipPipe.DiffImStage(policy)
+        stage = ipPipe.DiffImStage(policy)
         tester = SimpleStageTester(stage)
 
-        #print policy
+        # print policy
 
         clipboard = pexClipboard.Clipboard()
         clipboard.put(policy.get("inputKeys.templateExposureKey"), self.templateExposure)
@@ -219,23 +222,24 @@ class DiffImStageTestCase(unittest.TestCase):
 
         outWorker = tester.runWorker(clipboard)
         outPolicy = policy.get("outputKeys")
-        
-        #print outPolicy
-        
+
+        # print outPolicy
+
         self.assertTrue(outWorker.contains(outPolicy.get("differenceExposureKey")))
         self.assertTrue(outWorker.contains(outPolicy.get("psfMatchingKernelKey")))
         self.assertTrue(outWorker.contains(outPolicy.get("backgroundFunctionKey")))
 
         # also check types
-        diffExposure   = outWorker.get(outPolicy.get("differenceExposureKey"))
+        diffExposure = outWorker.get(outPolicy.get("differenceExposureKey"))
         matchingKernel = outWorker.get(outPolicy.get("psfMatchingKernelKey"))
-        background     = outWorker.get(outPolicy.get("backgroundFunctionKey"))
+        background = outWorker.get(outPolicy.get("backgroundFunctionKey"))
         self.assertTrue(isinstance(diffExposure, afwImage.ExposureF))
         self.assertTrue(isinstance(matchingKernel, afwMath.LinearCombinationKernel))
         self.assertTrue(isinstance(background, afwMath.Function2D))
 
         if display:
             ds9.mtv(outWorker.get(outPolicy.get("differenceExposureKey")), frame=5)
+
 
 def suite():
     """Returns a suite containing all the test cases in this module."""
@@ -246,13 +250,14 @@ def suite():
 
     if not eups.productDir("afwdata"):
         print >> sys.stderr, "afwdata is not setting up; skipping test"
-    else:        
+    else:
         suites += unittest.makeSuite(DiffImStageTestCase)
         pass
 
     suites += unittest.makeSuite(ValidationTestCase)
     suites += unittest.makeSuite(utilsTests.MemoryTestCase)
     return unittest.TestSuite(suites)
+
 
 def run(exit=False):
     """Run the tests"""

@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 
-# 
+#
 # LSST Data Management System
 # Copyright 2008, 2009, 2010 LSST Corporation.
-# 
+#
 # This product includes software developed by the
 # LSST Project (http://www.lsst.org/).
 #
@@ -11,14 +11,14 @@
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
-# You should have received a copy of the LSST License Statement and 
-# the GNU General Public License along with this program.  If not, 
+#
+# You should have received a copy of the LSST License Statement and
+# the GNU General Public License along with this program.  If not,
 # see <http://www.lsstcorp.org/LegalNotices/>.
 #
 
@@ -39,6 +39,7 @@ try:
 except NameError:
     display = False
 
+
 class CrSplitCombineStageParallel(harnessStage.ParallelProcessing):
     """
     Description:
@@ -53,6 +54,7 @@ class CrSplitCombineStageParallel(harnessStage.ParallelProcessing):
     ClipboardOutput:
     - Difference Exposure
     """
+
     def setup(self):
         self.log = Log(self.log, "crSplitCombine - parallel")
 
@@ -68,8 +70,8 @@ class CrSplitCombineStageParallel(harnessStage.ParallelProcessing):
         Combine two Exposures, omitting any pixels in either positiveDetection or negativeDetection
         """
         self.log.log(Log.INFO, "Combining two Exposures in process")
-        
-        #grab exposure from clipboard
+
+        # grab exposure from clipboard
         exposures = []
         for k in self.policy.getArray("inputKeys.exposures"):
             exposures.append(clipboard.get(k))
@@ -98,7 +100,7 @@ class CrSplitCombineStageParallel(harnessStage.ParallelProcessing):
             mi = e.getMaskedImage()
             fs.setMask(mi.getMask(), "CR")
             fs.setMask(combined.getMask(), "CR")
-            
+
             coaddUtils.addToCoadd(combined, weightMap, mi, mi.getMask().getPlaneBitMask("CR"), 1.0)
 
         combined /= weightMap
@@ -106,9 +108,10 @@ class CrSplitCombineStageParallel(harnessStage.ParallelProcessing):
         combinedExposure = afwImage.makeExposure(combined, exposures[0].getWcs())
         combinedExposure.setMetadata(exposures[0].getMetadata())
 
-        #output products
+        # output products
         clipboard.put(self.policy.get("outputKeys.combinedExposure"), combinedExposure)
-        
+
+
 class CrSplitCombineStage(harnessStage.Stage):
     parallelClass = CrSplitCombineStageParallel
 

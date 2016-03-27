@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 
-# 
+#
 # LSST Data Management System
 # Copyright 2008, 2009, 2010 LSST Corporation.
-# 
+#
 # This product includes software developed by the
 # LSST Project (http://www.lsst.org/).
 #
@@ -11,28 +11,30 @@
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
-# You should have received a copy of the LSST License Statement and 
-# the GNU General Public License along with this program.  If not, 
+#
+# You should have received a copy of the LSST License Statement and
+# the GNU General Public License along with this program.  If not,
 # see <http://www.lsstcorp.org/LegalNotices/>.
 #
 
 import math
 
 import lsst.pex.harness.stage as harnessStage
-from   lsst.pex.logging import Log
+from lsst.pex.logging import Log
 import lsst.pex.policy as pexPolicy
 import lsst.pex.exceptions as pexExcept
 import lsst.ip.diffim as ipDiffim
 
+
 def subtractSnaps(snap1, snap2, policy, doWarping = False):
     return snapDiff
-    
+
+
 class PairDiffImStageParallel(harnessStage.ParallelProcessing):
     """
     Description:
@@ -51,13 +53,14 @@ class PairDiffImStageParallel(harnessStage.ParallelProcessing):
     - Background Model
     - Kernel Cell Set
     """
+
     def setup(self):
-        self.log   = Log(self.log, "PairDiffImStage - parallel")
+        self.log = Log(self.log, "PairDiffImStage - parallel")
         policyFile = pexPolicy.DefaultPolicyFile("ip_pipeline",
-                "PairDiffImStageDictionary.paf", "policy")
-        defPolicy  = pexPolicy.Policy.createPolicy(policyFile,
-                policyFile.getRepositoryPath(), # repos
-                True)                           # validate
+                                                 "PairDiffImStageDictionary.paf", "policy")
+        defPolicy = pexPolicy.Policy.createPolicy(policyFile,
+                                                  policyFile.getRepositoryPath(),  # repos
+                                                  True)                           # validate
 
         if self.policy is None:
             self.policy = pexPolicy.Policy()
@@ -73,7 +76,7 @@ class PairDiffImStageParallel(harnessStage.ParallelProcessing):
         Run image subtraction
         """
         self.log.log(Log.INFO, "Running snap image subtraction")
-        
+
         # grab exposures from clipboard
         snap0Exposure = clipboard.get(self.policy.getString("inputKeys.snap0ExposureKey"))
         snap1Exposure = clipboard.get(self.policy.getString("inputKeys.snap1ExposureKey"))
@@ -87,30 +90,31 @@ class PairDiffImStageParallel(harnessStage.ParallelProcessing):
         # ACB debugging
         if False:
             import lsst.afw.image as afwImage
-            kimage   = afwImage.ImageD(kernelModel.getDimensions())
+            kimage = afwImage.ImageD(kernelModel.getDimensions())
             kernelModel.computeImage(kimage, False)
             kimage.writeFits("/tmp/kernel.fits")
 
             snap0Exposure.writeFits("/tmp/exp0.fits")
             snap1Exposure.writeFits("/tmp/exp1.fits")
             snapDiff.writeFits("/tmp/diff.fits")
-        
+
             # straight "-=" for comparison
             mi0 = snap0Exposure.getMaskedImage()
             mi1 = snap1Exposure.getMaskedImage()
-            diffMI0  = afwImage.MaskedImageF(mi1, True)
+            diffMI0 = afwImage.MaskedImageF(mi1, True)
             diffMI0 -= mi0
             diffMI0.writeFits("/tmp/sub.fits")
 
-        #output products
+        # output products
         clipboard.put(self.policy.get("outputKeys.differenceExposureKey"),
-                snapDiff)
+                      snapDiff)
         clipboard.put(self.policy.get("outputKeys.kernelModelKey"),
-                kernelModel)
+                      kernelModel)
         clipboard.put(self.policy.get("outputKeys.backgroundModelKey"),
-                bgModel)
+                      bgModel)
         clipboard.put(self.policy.get("outputKeys.kernelCellSetKey"),
-                kernelCellSet)
+                      kernelCellSet)
+
 
 class PairDiffImStage(harnessStage.Stage):
     parallelClass = PairDiffImStageParallel
